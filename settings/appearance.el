@@ -24,18 +24,18 @@
 ;; Default theme
 (defun use-presentation-theme ()
   (interactive)
-  (when (boundp 'henningjansen/presentation-font)
-    (set-face-attribute 'default nil :font henningjansen/presentation-font)))
+  (when (boundp 'jansenh/presentation-font)
+    (set-face-attribute 'default nil :font jansenh/presentation-font)))
 
 (defun use-default-theme ()
   (interactive)
   (load-theme 'default-black)
-  (when (boundp 'henningjansen/default-font)
-    (set-face-attribute 'default nil :font henningjansen/default-font)))
+  (when (boundp 'jansenh/default-font)
+    (set-face-attribute 'default nil :font jansenh/default-font)))
 
 (defun toggle-presentation-mode ()
   (interactive)
-  (if (string= (frame-parameter nil 'font) henningjansen/default-font)
+  (if (string= (frame-parameter nil 'font) jansenh/default-font)
       (use-presentation-theme)
     (use-default-theme)))
 

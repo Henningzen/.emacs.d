@@ -68,9 +68,9 @@
 
 ;; mac friendly font
 (when window-system
-  (setq henningjansen/default-font "-apple-Monaco-medium-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-  (setq henningjansen/presentation-font "-apple-Monaco-medium-normal-normal-*-21-*-*-*-m-0-iso10646-1")
-  (set-face-attribute 'default nil :font henningjansen/default-font))
+  (setq jansenh/default-font "-apple-Monaco-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+  (setq jansenh/presentation-font "-apple-Monaco-medium-normal-normal-*-21-*-*-*-m-0-iso10646-1")
+  (set-face-attribute 'default nil :font jansenh/default-font))
 
 ;; keybinding to toggle full screen mode
 (global-set-key (quote [M-f10]) (quote ns-toggle-fullscreen))

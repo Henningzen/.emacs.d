@@ -20,4 +20,13 @@
 
 (define-key persp-mode-map (kbd "C-x p -") 'custom-persp-last)
 
+;; Load perspective
+(require 'perspective)
+
+;; Enable perspective mode
+(persp-mode 1)
+
+;; Load perspective mode
+(persp-state-load "~/.perspectives/persp-henningzen")
+
 (provide 'setup-perspective)
