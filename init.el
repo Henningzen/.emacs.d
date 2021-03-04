@@ -214,7 +214,7 @@
 (require 'delsel)
 (require 'jump-char)
 (require 'eproject)
-(require 'smart-forward)
+;;(require 'smart-forward)
 (require 'change-inner)
 (require 'multifiles)
 
