@@ -1,9 +1,3 @@
-;;
-;; .emacs.d
-;; Henning Jansen
-;; version: 2019-12-24
-;;
-
 ;; Turn off mouse interface early in startup to avoid momentary display
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -214,7 +208,7 @@
 (require 'delsel)
 (require 'jump-char)
 (require 'eproject)
-;;(require 'smart-forward)
+(require 'smart-forward)
 (require 'change-inner)
 (require 'multifiles)
 
@@ -261,3 +255,4 @@
 ;; Conclude init by setting up specifics for the current user
 (when (file-exists-p user-settings-dir)
   (mapc 'load (directory-files user-settings-dir nil "^[^#].*el$")))
+

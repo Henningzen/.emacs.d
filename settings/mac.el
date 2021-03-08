@@ -5,19 +5,14 @@
 (setq mac-command-modifier 'meta)
 (setq ns-function-modifier 'hyper)
 
-;; NORWEGIAN KEYBOARD-----------------------------------------------------------
 ;; Norwegian mac-keyboard alt-keys)
-;; (define-key key-translation-map (kbd "s-8") (kbd "["))
-;; (define-key key-translation-map (kbd "s-(") (kbd "{"))
-;; (define-key key-translation-map (kbd "s-9") (kbd "]"))
-;; (define-key key-translation-map (kbd "s-)") (kbd "}"))
-;; (define-key key-translation-map (kbd "s-7") (kbd "|"))
-;; (define-key key-translation-map (kbd "s-/") (kbd "\\"))
-;; (defun insert-backslash ()
-;;   (interactive)
-;;   (insert "\\"))
-;; (global-set-key (kbd "\\") 'insert-backslash)
-;; (define-key key-translation-map (kbd "M-s-7") (kbd "M-|"))
+(define-key key-translation-map (kbd "s-8") (kbd "["))
+(define-key key-translation-map (kbd "s-(") (kbd "{"))
+(define-key key-translation-map (kbd "s-9") (kbd "]"))
+(define-key key-translation-map (kbd "s-)") (kbd "}"))
+(define-key key-translation-map (kbd "s-7") (kbd "|"))
+(define-key key-translation-map (kbd "s-/") (kbd "\\"))
+(define-key key-translation-map (kbd "M-s-7") (kbd "M-|"))
 
 (global-set-key (kbd "s-u") 'universal-argument)
 (global-set-key (kbd "s--") 'negative-argument)
@@ -73,9 +68,9 @@
 
 ;; mac friendly font
 (when window-system
-  (setq jansenh/default-font "-apple-Monaco-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
-  (setq jansenh/presentation-font "-apple-Monaco-medium-normal-normal-*-21-*-*-*-m-0-iso10646-1")
-  (set-face-attribute 'default nil :font jansenh/default-font))
+  (setq henningzen/default-font "-apple-Monaco-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+  (setq henningzen/presentation-font "-apple-Monaco-medium-normal-normal-*-21-*-*-*-m-0-iso10646-1")
+  (set-face-attribute 'default nil :font henningzen/default-font))
 
 ;; keybinding to toggle full screen mode
 (global-set-key (quote [M-f10]) (quote ns-toggle-fullscreen))

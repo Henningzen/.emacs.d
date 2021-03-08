@@ -3,6 +3,7 @@
       truncate-partial-width-windows nil)
 
 ;; Don't beep. Don't visible-bell (fails on el capitan). Just blink the modeline on errors.
+
 (setq visible-bell nil)
 (setq ring-bell-function (lambda ()
                            (invert-face 'mode-line)
@@ -24,18 +25,18 @@
 ;; Default theme
 (defun use-presentation-theme ()
   (interactive)
-  (when (boundp 'jansenh/presentation-font)
-    (set-face-attribute 'default nil :font jansenh/presentation-font)))
+  (when (boundp 'henningzen/presentation-font)
+    (set-face-attribute 'default nil :font henningzen/presentation-font)))
 
 (defun use-default-theme ()
   (interactive)
   (load-theme 'default-black)
-  (when (boundp 'jansenh/default-font)
-    (set-face-attribute 'default nil :font jansenh/default-font)))
+  (when (boundp 'henningzen/default-font)
+    (set-face-attribute 'default nil :font henningzen/default-font)))
 
 (defun toggle-presentation-mode ()
   (interactive)
-  (if (string= (frame-parameter nil 'font) jansenh/default-font)
+  (if (string= (frame-parameter nil 'font) henningzen/default-font)
       (use-presentation-theme)
     (use-default-theme)))
 

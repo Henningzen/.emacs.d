@@ -1,57 +1,20 @@
 
 ;; ----- smex-history -----
 (
- rgrep
- replace-string
- persp-state-restore
- persp-state-save
- cider-connect-sibling-clj
- rgrep-quit-window
- cider-inspect
+ cider-jack-in-clj
+ cider-jack-in
+ cider-view-manual
+ package-install
+ cd
+ 5x5
+ arp
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 6)
- (replace-string . 68)
- (cider-jack-in-clj . 4)
- (markdown-toggle-url-hiding . 51)
- (recentf-open-most-recent-file-0 . 1)
- (cider-test-report-mode . 1)
- (paredit-mode . 16)
- (ibuffer-do-sort-by-recency . 1)
- (ibuffer-redisplay . 1)
- (ibuffer-bs-show . 2)
- (ibuffer-mode . 2)
- (cider-test-run-ns-tests . 1)
- (markdown-mode . 1)
- (html-mode . 3)
- (write-file . 1)
- (markdown-reference-goto-definition . 1)
- (list-processes . 1)
- (cljr-find-usages . 3)
- (dired . 5)
- (replace-regexp . 1)
- (cider-connect-sibling-clj . 208)
- (persp-mode . 2)
- (persp-state-save . 118)
- (persp-state-restore . 248)
- (persp-kill . 3)
- (persp-switch . 5)
- (persp-rename . 2)
- (recover-this-file . 3)
- (rgrep . 68)
- (cider-connect-sibling-cljs . 2)
- (cider-interrupt . 3)
- (magit-diff . 1)
- (find-file . 1)
- (cider-inspect-last-sexp . 1)
- (eval-last-sexp . 1)
- (set-mark-command . 13)
- (transient-mark-mode . 3)
- (cider-ns-reload . 1)
- (cider-ns-reload-all . 1)
- (copy-current-file-path . 1)
- (cider-inspect . 1)
- (rgrep-quit-window . 1)
+ (rmail-quit . 2)
+ (package-install . 2)
+ (cider-jack-in . 12)
+ (cider-jack-in-clj . 5)
+ (cider-view-manual . 1)
 )
