@@ -117,6 +117,7 @@
      whitespace-cleanup-mode
      yasnippet
      zprint-mode
+     graphql-mode
      )))
 
 (condition-case nil
