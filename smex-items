@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
+ persp-state-restore
+ persp-state-save
  cider-jack-in-clj
  cider-jack-in
  cider-view-manual
  package-install
  cd
- 5x5
- arp
 )
 
 ;; ----- smex-data -----
@@ -17,4 +17,6 @@
  (cider-jack-in . 12)
  (cider-jack-in-clj . 5)
  (cider-view-manual . 1)
+ (persp-state-save . 1)
+ (persp-state-restore . 2)
 )

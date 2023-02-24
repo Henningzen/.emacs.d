@@ -109,7 +109,7 @@
      ripgrep
      simple-httpd
      smartparens
-     string-edit
+     ;;string-edit
      visual-regexp
      wgrep
      whitespace-cleanup-mode

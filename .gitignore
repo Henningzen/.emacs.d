@@ -12,3 +12,6 @@ recentf
 backups/
 elpa/
 history
+transient
+perspectives
+README.org
