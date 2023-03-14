@@ -3,7 +3,6 @@ auto-save-list
 forge-database.sqlite
 
 smex-items
-
 custom.el
 ido.last
 .mc-lists.el
@@ -14,3 +13,7 @@ elpa/
 history
 transient
 perspectives
+eln-cache
+perspectives_jansenh
+session.*
+

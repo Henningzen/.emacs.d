@@ -1,4 +1,3 @@
-;; Turn off mouse interface early in startup to avoid momentary display
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -8,7 +7,6 @@
   '(defun enriched-decode-display-prop (start end &optional param)
      (list start end)))
 
-;; No splash screen please ... jeez
 (setq inhibit-startup-message t)
 
 ;; Set path to dependencies
@@ -87,7 +85,7 @@
      forge
      gist
      groovy-mode
-;;     guide-key
+;;   guide-key
      highlight-escape-sequences
      htmlize
      hydra
@@ -124,7 +122,6 @@
    (package-refresh-contents)
    (init--install-packages)))
 
-;; Lets start with a smattering of sanity
 (require 'sane-defaults)
 
 ;; Setup environment variables from the user's shell.
