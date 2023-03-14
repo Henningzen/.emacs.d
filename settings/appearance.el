@@ -2,47 +2,17 @@
       color-theme-is-global t
       truncate-partial-width-windows nil)
 
-;; Don't beep. Don't visible-bell (fails on el capitan). Just blink the modeline on errors.
+;; Don't beep. Don't visible-bell. Just blink the modeline on errors.
 
 (setq visible-bell nil)
 (setq ring-bell-function (lambda ()
                            (invert-face 'mode-line)
                            (run-with-timer 0.05 nil 'invert-face 'mode-line)))
 
-;; Highlight current line
-(global-hl-line-mode 1)
+;; Dont highlight current line
+(global-hl-line-mode 0)
 
 (setq css-fontify-colors nil)
-
-;; Set custom theme path
-(setq custom-theme-directory (concat user-emacs-directory "themes"))
-
-(dolist
-    (path (directory-files custom-theme-directory t "\\w+"))
-  (when (file-directory-p path)
-    (add-to-list 'custom-theme-load-path path)))
-
-;; Default theme
-(defun use-presentation-theme ()
-  (interactive)
-  (when (boundp 'henningzen/presentation-font)
-    (set-face-attribute 'default nil :font henningzen/presentation-font)))
-
-(defun use-default-theme ()
-  (interactive)
-  (load-theme 'default-black)
-  (when (boundp 'henningzen/default-font)
-    (set-face-attribute 'default nil :font henningzen/default-font)))
-
-(defun toggle-presentation-mode ()
-  (interactive)
-  (if (string= (frame-parameter nil 'font) henningzen/default-font)
-      (use-presentation-theme)
-    (use-default-theme)))
-
-(global-set-key (kbd "C-<f9>") 'toggle-presentation-mode)
-
-(use-default-theme)
 
 ;; Don't defer screen updates when performing operations
 (setq redisplay-dont-pause t)
