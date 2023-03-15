@@ -313,6 +313,9 @@
 ;; Find file in project
 (global-set-key (kbd "C-x o") 'find-file-in-project)
 
+;; Find file in project
+(global-set-key (kbd "C-x x s") 'persp-switch)
+
 ;; Find file in project, with specific patterns
 (global-unset-key (kbd "C-x C-o")) ;; which used to be delete-blank-lines (also bound to C-c C-<return>)
 (global-set-key (kbd "C-x C-o ja") (ffip-create-pattern-file-finder "*.java"))

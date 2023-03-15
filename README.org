@@ -4,4 +4,8 @@
 
 * README
 
-** Emacs 27.1, Ubuntu 22.04 February 2023
+** Fixes and improvements
+
+*** 2023 March
+**** Add Mac OSX modifier keys improvement in init.el
+**** Add fix for perspective mode, retaining the C-x x s binding from Emacs version < 28.x
