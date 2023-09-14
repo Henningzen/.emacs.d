@@ -187,6 +187,17 @@
 (eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
 (eval-after-load 'markdown-mode '(require 'setup-markdown-mode))
 
+
+;; Java TODO
+
+(require 'google-c-style)
+(add-hook 'c-mode-common-hook
+          (lambda()
+            (subword-mode)
+            (google-set-c-style)
+            (google-make-newline-indent)
+            (setq c-basic-offset 2)))
+
 ;; Load stuff on demand
 (autoload 'skewer-start "setup-skewer" nil t)
 (autoload 'skewer-demo "setup-skewer" nil t)
@@ -249,6 +260,9 @@
 ;; Elisp go-to-definition with M-. and back again with M-,
 (autoload 'elisp-slime-nav-mode "elisp-slime-nav")
 (add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t) (eldoc-mode 1)))
+
+;; Setup Lisp (Henning 2023-09-11)
+(setq inferior-lisp-program "sbcl")
 
 ;; Emacs server
 (require 'server)
