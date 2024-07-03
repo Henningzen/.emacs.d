@@ -42,23 +42,23 @@
 (define-key paredit-mode-map (kbd "M-C-<backspace>") 'backward-kill-sexp)
 
 ;; Change nasty paredit keybindings
-(defvar my-nasty-paredit-keybindings-remappings
-  '(("M-s"         "s-s"         paredit-splice-sexp)
-    ("M-<up>"      "s-<up>"      paredit-splice-sexp-killing-backward)
-    ("M-<down>"    "s-<down>"    paredit-splice-sexp-killing-forward)
-    ("C-<right>"   "s-<right>"   paredit-forward-slurp-sexp)
-    ("C-<left>"    "s-<left>"    paredit-forward-barf-sexp)
-    ("C-M-<left>"  "s-S-<left>"  paredit-backward-slurp-sexp)
-    ("C-M-<right>" "s-S-<right>" paredit-backward-barf-sexp)))
+;; (defvar my-nasty-paredit-keybindings-remappings
+;;   '(("M-s"         "s-s"         paredit-splice-sexp)
+;;     ("M-<up>"      "s-<up>"      paredit-splice-sexp-killing-backward)
+;;     ("M-<down>"    "s-<down>"    paredit-splice-sexp-killing-forward)
+;;     ("C-<right>"   "s-<right>"   paredit-forward-slurp-sexp)
+;;     ("C-<left>"    "s-<left>"    paredit-forward-barf-sexp)
+;;     ("C-M-<left>"  "s-S-<left>"  paredit-backward-slurp-sexp)
+;;     ("C-M-<right>" "s-S-<right>" paredit-backward-barf-sexp)))
 
 (define-key paredit-mode-map (kbd "s-r") 'paredit-raise-sexp)
 
-(--each my-nasty-paredit-keybindings-remappings
-  (let ((original (car it))
-        (replacement (cadr it))
-        (command (car (last it))))
-    (define-key paredit-mode-map (read-kbd-macro original) nil)
-    (define-key paredit-mode-map (read-kbd-macro replacement) command)))
+;; (--each my-nasty-paredit-keybindings-remappings
+;;   (let ((original (car it))
+;;         (replacement (cadr it))
+;;         (command (car (last it))))
+;;     (define-key paredit-mode-map (read-kbd-macro original) nil)
+;;     (define-key paredit-mode-map (read-kbd-macro replacement) command)))
 
 ;; Enable `paredit-mode' in the minibuffer, during `eval-expression'.
 (defun conditionally-enable-paredit-mode ()
