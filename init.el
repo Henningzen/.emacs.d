@@ -1,280 +1,286 @@
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+;; init.el --- Emacs configuration -*- lexical-binding: t; -*-
 
-;; Remove security vulnerability
-(eval-after-load "enriched"
-  '(defun enriched-decode-display-prop (start end &optional param)
-     (list start end)))
+;;; Commentary:
 
-(setq inhibit-startup-message t)
+;; A starting point for your Emacs configuration.
+;;
+;; Start Emacs is not a distribution, but a set of defaults and
+;; recommended packages to help get you started with your own
+;; configuration.  The goal is a readable, discoverable configuration
+;; that you can learn to modify to suit your needs.
+;;
+;; I recommend starting with the Emacs tutorial: "C-h t".  After
+;; completing it, return to this file and read through the various
+;; comments and customizations to learn more about customizing your
+;; Emacs experience.  You can use "C-h o" to read the built-in
+;; documentation on any symbol that you don't recognize.
 
-;; Set path to dependencies
-(setq site-lisp-dir
-      (expand-file-name "site-lisp" user-emacs-directory))
+;;; Code:
 
-(setq settings-dir
-      (expand-file-name "settings" user-emacs-directory))
+;; TODO: Un-comment the following code and swap "Hack 12" with your
+;; preferred font family and size.
 
-;; Set up load path
-(add-to-list 'load-path settings-dir)
-(add-to-list 'load-path site-lisp-dir)
+;; (defun my--configure-fonts ()
+;;   "Configure your default font family and size."
+;;   (let ((base "Hack 12"))
+;;     (custom-set-faces
+;;      `(default ((t :font ,base)))
+;;      `(fixed-pitch ((t :inherit (default))))
+;;      `(default ((t :inherit (default)))))))
+;;
+;; (add-hook 'emacs-startup-hook #'my--configure-fonts)
 
-;; Keep emacs Custom-settings in separate file
+;;; Setting tweaks:
+
+;; Apperance & behaviour
+(setq ring-bell-function #'ignore)
+
+;; No auto-resizing of frames.
+(setq frame-inhibit-implied-resize t)
+
+;; Auto-revert dired (the directory editor) when revisiting
+;; directories, since they may have changed underneath.
+(setq dired-auto-revert-buffer t)
+
+;; Tab does quite a bit of stuff in Emacs, so it's helpful to have it
+;; attempt completions when it's not doing something else.
+(setq tab-always-indent 'complete)
+
+;; Scroll Eshell to the bottom when new output is added.
+(setq eshell-scroll-to-bottom-on-input 'this)
+
+;; Make certain mouse commands more intuitive.
+(setq mouse-yank-at-point t)
+
+;; The safest, but slowest method for creating backups.
+(setq backup-by-copying t)
+
+;; Avoid cluttering up project directories with backup files by saving
+;; them to the same place.
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+
+;; "M-x customize" can tweak Emacs Lisp variables via a graphical
+;; interface, but those tweaks are normally saved directly to your
+;; hand-edited `init.el'.  I like a clean `init.el', so I write those
+;; customizations to a different file instead.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
 
-;; Set up appearance early
-(require 'appearance)
+;; Emacs Lisp files can be byte-compiled into `.elc' files, which run
+;; faster.  By default Emacs prefers `.elc' to `.el' in all cases,
+;; causing occasional annoyances if you make a change to an Emacs Lisp
+;; file but forget to byte-compile it.  `load-prefer-newer' always
+;; prefers the last-edited file, preventing this problem.
+(setq load-prefer-newer t)
 
-;; Settings for currently logged in user
-(setq user-settings-dir
-      (concat user-emacs-directory "users/" user-login-name))
-(add-to-list 'load-path user-settings-dir)
+;; Automatically retain a final newline when saving a file.
+(setq require-final-newline t)
 
-;; Add external projects to load path
-(dolist (project (directory-files site-lisp-dir t "\\w+"))
-  (when (file-directory-p project)
-    (add-to-list 'load-path project)))
+;; Avoid tabs when possible.
+(setq-default indent-tabs-mode nil)
 
-;; Write backup files to own directory
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name
-                 (concat user-emacs-directory "backups")))))
+;; Turn off the default Emacs UI elements, drill those keybindings
+;; instead!  You can use "C-h C-q" to pull up a quick-reference sheet
+;; that will help you remember the basics.
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
 
-;; Write all autosave files in the tmp dir
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+;; Display line numbers in programming language modes.
+;;(add-hook 'prog-mode-hook #'display-line-numbers-mode)                 ;; --- Nope!
 
-;; Don't write lock-files, I'm the only one here
-(setq create-lockfiles nil)
+;; Respect color escape sequences.  Particularly useful for "M-x
+;; compile" with modern programming languages that use colors to
+;; convey information.
+(add-hook 'compilation-filter-hook #'ansi-color-compilation-filter)
 
-;; Make backups of files, even when they're in version control
-(setq vc-make-backup-files t)
+;; Initialize package.el for loading third-party packages.  Also set
+;; up package.el to accept packages from the MELPA package archives,
+;; the largest package repository for Emacs.
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
 
-;; Save point position between sessions
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file (expand-file-name ".places" user-emacs-directory))
+(unless package-archive-contents
+  (package-refresh-contents))
 
-;; Are we on a mac?
-(setq is-mac (equal system-type 'darwin))
+;;; Packages:
 
-;; OSX Specific key modifiers
-(when (equal system-type 'darwin)
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'super)
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-  (add-to-list 'default-frame-alist '(ns-appearance . dark))
-  (when (member "Fira Code" (font-family-list))
-    (add-to-list 'initial-frame-alist '(font . "Fira Code-14"))
-    (add-to-list 'default-frame-alist '(font . "Fira Code-14")))
-  (set-fontset-font t 'symbol (font-spec :family "Apple Symbols") nil 'prepend)
-  (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") nil 'prepend))
+;; All of the package configuration in this file uses `use-package', a
+;; macro that makes it easier to load and configure packages, both
+;; third-party and built-in.  To learn more, access the `use-package'
+;; manual via "C-h i m use-package".
 
-;; Setup packages
-(require 'setup-package)
+;; `repeat-mode' allows you to trigger certain repeat commands by
+;; typing the final character without the control modifier.  For
+;; example, if you're switching between multiple buffers, you can use
+;; "C-x o o o" to swap three times, instead of repeating the full
+;; sequence: "C-x o", "C-x o", "C-x o".
+(use-package repeat
+  :config
+  (repeat-mode))
 
-;; Install extensions if they're missing
-(defun init--install-packages ()
-  (packages-install
-   '(
-     cider
-     clojure-mode
-     clojure-mode-extra-font-locking
-     css-eldoc
-     diff-hl
-     deadgrep
-     dockerfile-mode
-     edn
-     elisp-slime-nav
-     f
-     fill-column-indicator
-     flx
-     flx-ido
-     flycheck
-     flycheck-pos-tip
-     forge
-     gist
-     groovy-mode
-;;   guide-key
-     highlight-escape-sequences
-     htmlize
-     hydra
-     ido-at-point
-     ido-completing-read+
-     ido-vertical-mode
-     inflections
-     kaocha-runner
-     magit
-     markdown-mode
-     move-text
-     nodejs-repl
-     paredit
-     perspective
-     prodigy
-     projectile
-     request
-     restclient
-     ripgrep
-     simple-httpd
-     smartparens
-     ;;string-edit
-     visual-regexp
-     wgrep
-     whitespace-cleanup-mode
-     yasnippet
-     zprint-mode
-     graphql-mode
-     )))
+;; When there are conflicting names in your buffer-selector ("C-x b"),
+;; `uniquify' disambiguates them by prepending the directory.
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward))
 
-(condition-case nil
-    (init--install-packages)
-  (error
-   (package-refresh-contents)
-   (init--install-packages)))
 
-(require 'sane-defaults)
+(use-package nordic-night-theme
+  :ensure t
+  :config
+  
+  ;;(load-theme 'nordic-midnight t)
+  (load-theme 'nordic-night t))
 
-;; Setup environment variables from the user's shell.
-(when is-mac
-  (require-package 'exec-path-from-shell)
+
+;; When using Mac OSX or Linux, you likely want your shell environment
+;; path available to Emacs so that Emacs can locate your custom
+;; utilities.  This is helpful if you use your PATH variable for LSP
+;; servers, CLI tools, language environments etc.  Windows users can
+;; effectively ignore this package.
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :ensure t
+  :config
   (exec-path-from-shell-initialize))
 
-;;;; guide-key
-;;(require 'guide-key)
-;;(setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x +"))
-;;(guide-key-mode 1)
-;;(setq guide-key/recursive-key-sequence-flag t)
-;;(setq guide-key/popup-window-position 'bottom)
+;; Emacs ships with several completion engines, but none are as
+;; flexible as Vertico.  This is the secret sauce that powers the
+;; Emacs "Command Palette", enabling tab-completion when using "M-x
+;; command", `project-find-file', and other minibuffer commands.
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  (setq vertico-cycle t))
 
-;; Setup extensions
-(eval-after-load 'ido '(require 'setup-ido))
-(eval-after-load 'org '(require 'setup-org))
-(eval-after-load 'dired '(require 'setup-dired))
-(eval-after-load 'magit '(require 'setup-magit))
-(eval-after-load 'shell '(require 'setup-shell))
-(require 'setup-rgrep)
-(require 'setup-hippie)
-(require 'setup-yasnippet)
-(require 'setup-perspective)
-(require 'setup-ffip)
-(require 'setup-html-mode)
-(require 'setup-paredit)
+;; Persist minibuffer history over Emacs restarts.  Vertico uses this
+;; to sort based on history.
+(use-package savehist
+  :init
+  (savehist-mode))
 
-(require 'prodigy)
-(global-set-key (kbd "C-x M-m") 'prodigy)
+;; Marginalia adds, well, marginalia to the Emacs minibuffer,
+;; extending Vertico with a ton of rich information.
+(use-package marginalia
+  :ensure t
+  :after vertico
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the
+  ;; binding available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :init
+  ;; Marginalia must be activated in the :init section of use-package
+  ;; such that the mode gets enabled right away.  Note that this
+  ;; forces loading the package.
+  (marginalia-mode))
 
-;; Font lock dash.el
-(eval-after-load "dash" '(dash-enable-font-lock))
+;; When the minibuffer is open and you're searching for some text,
+;; Emacs can be very persnickety about the order in which you type.
+;; Orderless laxes this behavior so the search is "fuzzier"; you'll
+;; see results more often even if you type things in the wrong order.
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
-;; Default setup of smartparens
-(require 'smartparens-config)
-(setq sp-autoescape-string-quote nil)
-(--each '(css-mode-hook
-          restclient-mode-hook
-          js-mode-hook
-          java-mode
-          ruby-mode
-          markdown-mode
-          groovy-mode
-          scala-mode)
-  (add-hook it 'turn-on-smartparens-mode))
+;; Replace the default Emacs isearch with Consult, which offers a rich
+;; minibuffer results window and integration with Orderless.
+(use-package consult
+  :ensure t
+  :bind (("C-s" . consult-line)
+         :map minibuffer-local-map
+         ("C-r" . consult-history))
+  :custom
+  (completion-in-region-function #'consult-completion-in-region))
 
-;; Language specific setup files
-(eval-after-load 'js2-mode '(require 'setup-js2-mode))
-(eval-after-load 'ruby-mode '(require 'setup-ruby-mode))
-(eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
-(eval-after-load 'markdown-mode '(require 'setup-markdown-mode))
+;; Where Vertico is a completion engine for your Emacs minibuffer,
+;; Corfu is a completion engine for your source code.  This package
+;; takes the data from things like LSP or Dabbrev and puts those
+;; results in a convenient autocomplete.
+(use-package corfu
+  :ensure t
+  ;; Recommended: Enable Corfu globally.  This is recommended since
+  ;; Dabbrev can be used globally (M-/).  See also the customization
+  ;; variable `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode)
+  :custom
+  (corfu-auto t)
+  ;; You might want to configure these variables to suit your
+  ;; preferences.  It's recommended to have some amount of delay if
+  ;; you use Corfu with Eglot, otherwise editing performance could
+  ;; suffer.
+  (corfu-auto-delay 0.25)
+  (corfu-auto-prefix 2))
 
+;; Enhance Corfu with additional completion functions so that it
+;; provides more suggestions.  For example, `cape-dabbrev' looks at
+;; words in the current buffer as a source for completions.  There are
+;; many more completion functions available than those listed, so it's
+;; worth reading through the Cape documentation to discover others
+;; that may be useful to your workflow.
+(use-package cape
+  :ensure t
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block))
 
-;; Java TODO
+;; Emacs includes Tree-sitter support as of version 29, but does not
+;; bundle Tree-sitter grammars via the usual installation methods.
+;; That means that if you want to use a Tree-sitter major mode, you
+;; must first install the respective language grammar.  `treesit-auto'
+;; is a handy package that manages this extra step for you, prompting
+;; the installation of Tree-sitter grammars when necessary.
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook
-          (lambda()
-            (subword-mode)
-            (google-set-c-style)
-            (google-make-newline-indent)
-            (setq c-basic-offset 2)))
+;; If LSP is your jam, Eglot is your fix. Use the `eglot' command in a
+;; programming major mode to boot up a language server and connect it
+;; to Emacs.  Eglot does not install language servers for you, so you
+;; must have the language server installed for a particular language
+;; (e.g. rust-analyzer for Rust) before `eglot' will work its magic.
+(use-package eglot
+  ;; Uncomment these dotted pairs to automatically activate Eglot when
+  ;; that major mode is active.
+  ;;
+  ;; :hook ((rust-ts-mode . eglot-ensure)
+  ;;        (go-ts-mode . eglot-ensure))
+  :bind (("C-c ." . eglot-code-action-quickfix)))
 
-;; Load stuff on demand
-(autoload 'skewer-start "setup-skewer" nil t)
-(autoload 'skewer-demo "setup-skewer" nil t)
-(autoload 'auto-complete-mode "auto-complete" nil t)
+;; Add breadcrumbs to the top of buffers.  Works great with Eglot.
+(use-package breadcrumb
+  :ensure t
+  :config
+  (breadcrumb-mode -1))                                                   ;; Toggle breadcrumb mode.
 
-;; Map files to modes
-(require 'mode-mappings)
+;;; Custom lisp modules:
 
-;; Highlight escape sequences
-(require 'highlight-escape-sequences)
-(hes-mode)
-(put 'font-lock-regexp-grouping-backslash 'face-alias 'font-lock-builtin-face)
+;; This section is all yours.  With `lisp/' in your `load-path', you
+;; can drop any Emacs Lisp code into that directory and it will be
+;; available for use in Emacs.  This is a great place for custom
+;; packages, lengthy configurations, and other experimentations.  Many
+;; Emacs users also split out their init.el into separate modules, one
+;; for each category of configuration.
+;;
+;; Take a look at lisp/my-package-refresh.el for an example
+;; user-defined package.
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-;; Visual regexp
-(require 'visual-regexp)
-(define-key global-map (kbd "M-&") 'vr/query-replace)
-(define-key global-map (kbd "M-/") 'vr/replace)
+;; Automatically refresh `package-archive-contents' at most once a
+;; week when calling `package-install'.
+(use-package my-package-refresh
+  :config
+  (setq my-package-automatic-refresh-threshold (* 7 24)))
 
-;; Functions (load all files in defuns-dir)
-(setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
-(dolist (file (directory-files defuns-dir t "\\w+"))
-  (when (file-regular-p file)
-    (load file)))
-
-(require 'expand-region)
-(require 'multiple-cursors)
-(require 'delsel)
-(require 'jump-char)
-(require 'eproject)
-(require 'smart-forward)
-(require 'change-inner)
-(require 'multifiles)
-
-;; Don't use expand-region fast keys
-(setq expand-region-fast-keys-enabled nil)
-
-;; Show expand-region command used
-(setq er--show-expansion-message t)
-
-;; Fill column indicator
-(require 'fill-column-indicator)
-(setq fci-rule-color "#111122")
-
-;; Browse kill ring
-(require 'browse-kill-ring)
-(setq browse-kill-ring-quit-action 'save-and-restore)
-
-;; Smart M-x is smart
-(require 'smex)
-(smex-initialize)
-
-;; Setup key bindings
-(require 'key-bindings)
-
-;; Misc
-(require 'project-archetypes)
-(require 'my-misc)
-(when is-mac (require 'mac))
-
-;; Elisp go-to-definition with M-. and back again with M-,
-(autoload 'elisp-slime-nav-mode "elisp-slime-nav")
-(add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t) (eldoc-mode 1)))
-
-;; Setup Lisp (Henning 2023-09-11)
-(setq inferior-lisp-program "sbcl")
-
-;; Emacs server
-(require 'server)
-(unless (server-running-p)
-  (server-start))
-
-;; Run at full power please
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-
-;; Conclude init by setting up specifics for the current user
-(when (file-exists-p user-settings-dir)
-  (mapc 'load (directory-files user-settings-dir nil "^[^#].*el$")))
-
+;;; init.el ends here
