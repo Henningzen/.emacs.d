@@ -78,7 +78,13 @@
      '(defadvice ,mode (after rename-modeline activate)
         (setq mode-name ,new-name))))
 
-(rename-modeline "js2-mode" js2-mode "JS2")
+;;(rename-modeline "js2-mode" js2-mode "JS2")
 (rename-modeline "clojure-mode" clojure-mode "Clj")
+
+(use-package nordic-night-theme
+  :ensure t
+  :config
+  ;; (load-theme 'nordic-midnight t)
+  (load-theme 'nordic-night t))
 
 (provide 'appearance)
