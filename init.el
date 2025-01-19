@@ -278,5 +278,14 @@
 (when (file-exists-p user-settings-dir)
   (mapc 'load (directory-files user-settings-dir nil "^[^#].*el$")))
 
+(use-package nordic-night-theme
+  :ensure t
+  :config
+
+  ;; Use this for the darker version
+  ;; (load-theme 'nordic-midnight t)
+
+  (load-theme 'nordic-night t))
+
 (persp-state-load "~/.emacs.d/perspectives")
 
