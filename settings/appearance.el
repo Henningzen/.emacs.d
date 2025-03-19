@@ -122,10 +122,4 @@
 (rename-modeline "python-mode" clojure-mode "Py")
 (rename-modeline "org-mode" clojure-mode "Org")
 
-(use-package nordic-night-theme
-  :ensure t
-  :config
-  ;; (load-theme 'nordic-midnight t)
-  (load-theme 'nordic-night t))
-
 (provide 'appearance)

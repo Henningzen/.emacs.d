@@ -14,6 +14,14 @@ learn more about what goes into the configuration, and realise that I am most
 likely stuck with Emacs for life, due to Clojure being my main focus and
 Org-mode is my primary way of organizing myself.
 
+This second time over I have also consulted and copied from [Christian Johansen](https://github.com/cjohansen)
+.emacs.d repo, according to what has been stated in the [README.md](https://github.com/cjohansen/.emacs.d/blob/master/README.md)
+
+>"I recommend starting with a blank emacs + Technomancy's better-defaults
+>package, and then dig through this repo for useful nuggets, instead of
+>forking it directly."
+
+
 Feel free to clone or copy. Emacs is most recommendable, even though it can be
 very intrusive and dangerously addictive.
 
