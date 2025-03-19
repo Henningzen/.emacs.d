@@ -2,17 +2,53 @@
       color-theme-is-global t
       truncate-partial-width-windows nil)
 
-;; Don't beep. Don't visible-bell. Just blink the modeline on errors.
-
+;; Don't beep. Don't visible-bell (fails on el capitan). Just blink the modeline on errors.
 (setq visible-bell nil)
 (setq ring-bell-function (lambda ()
                            (invert-face 'mode-line)
                            (run-with-timer 0.05 nil 'invert-face 'mode-line)))
 
-;; Dont highlight current line
-(global-hl-line-mode 0)
+;; Highlight current line
+(global-hl-line-mode -1)
 
 (setq css-fontify-colors nil)
+
+;; Set custom theme path
+(setq custom-theme-directory (concat user-emacs-directory "themes"))
+
+(dolist
+    (path (directory-files custom-theme-directory t "\\w+"))
+  (when (file-directory-p path)
+    (add-to-list 'custom-theme-load-path path)))
+
+;; Default theme                                                    ;; TODO make jansenh/**-font
+(defun use-presentation-theme ()
+  (interactive)
+  (when (boundp 'jansenh/presentation-font)
+    (set-face-attribute 'default nil :font jansenh/presentation-font)))
+
+(defun use-default-theme ()
+  (interactive)
+  (load-theme 'deeper-blue)
+  (when (boundp 'jansenh/default-font)
+    (set-face-attribute 'default nil :font jansenh/default-font)))
+
+(defun toggle-presentation-mode ()
+  (interactive)
+  (if (string= (frame-parameter nil 'font) jansenh/default-font)
+      (use-presentation-theme)
+    (use-default-theme)))
+
+(global-set-key (kbd "C-<f9>") 'toggle-presentation-mode)
+
+(use-default-theme)
+
+;; Font for in Emacs 29/Ubuntu
+(if is-mac nil
+  (set-frame-font "DejaVu Sans Mono")
+  (set-face-attribute 'default nil :height 140))
+
+;;(set-frame-font "Source Code Pro Medium")                    ;; TODO: install font
 
 ;; Don't defer screen updates when performing operations
 (setq redisplay-dont-pause t)
@@ -34,7 +70,12 @@
   (blink-cursor-mode -1))
 
 ;; Make zooming affect frame instead of buffers
-(require 'zoom-frm)
+;;(require 'zoom-frm)                                               ;; TODO! Has been installed in site-lisp...
+
+;; Sweet window-splits
+(defadvice split-window-right (after balance activate) (balance-windows))
+(defadvice delete-window (after balance activate) (balance-windows))
+(defadvice split-window-below (after balance activate) (balance-windows))
 
 (defun enable-zoom-one-shot-keybindings ()
   (set-transient-map
@@ -69,9 +110,7 @@
 (eval-after-load "skewer-css" '(diminish 'skewer-css-mode))
 (eval-after-load "skewer-html" '(diminish 'skewer-html-mode))
 (eval-after-load "smartparens" '(diminish 'smartparens-mode))
-;;(eval-after-load "guide-key" '(diminish 'guide-key-mode))
 (eval-after-load "whitespace-cleanup-mode" '(diminish 'whitespace-cleanup-mode))
-(eval-after-load "subword" '(diminish 'subword-mode))
 
 (defmacro rename-modeline (package-name mode new-name)
   `(eval-after-load ,package-name
@@ -80,6 +119,8 @@
 
 ;;(rename-modeline "js2-mode" js2-mode "JS2")
 (rename-modeline "clojure-mode" clojure-mode "Clj")
+(rename-modeline "python-mode" clojure-mode "Py")
+(rename-modeline "org-mode" clojure-mode "Org")
 
 (use-package nordic-night-theme
   :ensure t
