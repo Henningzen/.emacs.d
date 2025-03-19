@@ -1,0 +1,3 @@
+[submodule "better-defaults"]
+	path = better-defaults
+	url = https://git.sr.ht/~technomancy/better-defaults
