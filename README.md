@@ -1,4 +1,4 @@
-# .emacs-d
+# .emacs.d
 
 My Emacs settings - updated 2025
 
