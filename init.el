@@ -115,7 +115,6 @@
      flycheck-pos-tip
      forge
      gist
-     go-mode
      groovy-mode
      highlight-escape-sequences
      html-to-hiccup
