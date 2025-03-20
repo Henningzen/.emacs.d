@@ -28,7 +28,10 @@ very intrusive and dangerously addictive.
 ## Setup
 
 The first time you start emacs, it will install some additional packages
-that are best handled by the package manager.
+that are best handled by the package manager. In addition, make sure you have:
+
+* cloned [Technomancy's better-defaults](https://git.sr.ht/~technomancy/better-defaults)
+* Created a custom.el file
 
 
 ## Install emacs on Linux
