@@ -32,6 +32,15 @@ that are best handled by the package manager.
 
 * diminish
 * dash
+* datomic-snippets
+* find-file-in-project
+* browse-kill-ring
+* expand-region
+* jump-char
+* smart-forward
+* change-inner
+* multifiles
+* smex
 
 In addition, make sure you have:
 
@@ -129,3 +138,13 @@ by Erik L. Arneson.
 * `F1 k   ` Help for a keybinding
 * `F1 r   ` Emacs' extensive documentation
 
+### Advanced usage
+* `C-c j e j` copy-edn-as-json
+* `C-c j j e` copy-json-as-edn
+
+## TODO
+* Warning (comp): perspective.el:2219:6: Warning: ‘ibuffer-awhen’ is an obsolete macro (as of 29.1); use ‘when-let’ instead.
+* Warning (comp): paredit.el:714:33: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
+* Warning (comp): paredit.el:723:42: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
+* Warning (comp): datomic-snippets.el:87:48: Warning: reference to free variable ‘datomic-snippets-root’
+* Warning (comp): datomic-snippets.el:90:6: Warning: ‘yas/load-directory’ is an obsolete function (as of yasnippet 0.8); use ‘yas-load-directory’ instead.

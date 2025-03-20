@@ -1,15 +1,8 @@
-;;; ----------------------------------------------------------------------------
+;; ----------------------------------------------------------------------------
 ;;; Henning Jansen 2025
 ;;;   Developed on GNU Emacs 29.4 (build 2, x86_64-pc-linux-gnu,
 ;;;   GTK+ Version 3.24.41, cairo version 1.18.0) of 2024-12-29
 ;;; ----------------------------------------------------------------------------
-
-
-;; Technomancy's Better Defaults
-;; https://git.sr.ht/~technomancy/better-defaults
-
-(add-to-list 'load-path "./better-defaults")
-(require 'better-defaults)
 
 
 ;; Menubar, toolbar and scrollbar
@@ -44,6 +37,12 @@
 
 ;; Are we on a mac?
 (setq is-mac (equal system-type 'darwin))
+
+;; Technomancy's Better Defaults
+;; https://git.sr.ht/~technomancy/better-defaults
+
+(add-to-list 'load-path "./better-defaults")
+(require 'better-defaults)
 
 ;; Set up appearance early
 (require 'appearance)
@@ -115,7 +114,6 @@
      flycheck-pos-tip
      forge
      gist
-     groovy-mode
      highlight-escape-sequences
      html-to-hiccup
      htmlize
@@ -125,8 +123,8 @@
      ido-vertical-mode
      inflections
      jet
-     js2-mode
-     js2-refactor
+;;   js2-mode
+;;   js2-refactor
      kaocha-runner
      less-css-mode
      lorem-ipsum
@@ -135,7 +133,7 @@
      markdown-mode
      minions
      move-text
-     nodejs-repl
+;;   nodejs-repl
      orderless
      paredit
      perspective
@@ -145,7 +143,6 @@
      request
      restclient
      ripgrep
-     scala-mode
      simple-httpd
      smartparens
      spinner
@@ -235,132 +232,116 @@
 (eval-after-load 'dired '(require 'setup-dired))
 (eval-after-load 'magit '(require 'setup-magit))
 (eval-after-load 'shell '(require 'setup-shell))
-;; (require 'setup-rgrep)
-;; (require 'setup-hippie)
-;; (require 'setup-yasnippet)
-;; (require 'setup-perspective)
-;; (require 'setup-ffip)
-;; (require 'setup-html-mode)
-;; (require 'setup-paredit)
-;; (require 'setup-editorconfig)
-;; (require 'setup-css-mode)
-;; (require 'scala-mode)
-;; (require 'jet-custom)
+(require 'setup-rgrep)
+(require 'setup-hippie)
+(require 'setup-yasnippet)
+(require 'setup-perspective)
+(require 'setup-ffip)
+(require 'setup-html-mode)
+(require 'setup-paredit)
+(require 'setup-editorconfig)
+(require 'setup-css-mode)
+(require 'jet-custom)
 
-;; (global-set-key (kbd "C-c j e j") 'copy-edn-as-json)
-;; (global-set-key (kbd "C-c j j e") 'copy-json-as-edn)
+(global-set-key (kbd "C-c j e j") 'copy-edn-as-json)
+(global-set-key (kbd "C-c j j e") 'copy-json-as-edn)
 
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; (require 'prodigy)
-;; (global-set-key (kbd "C-x M-m") 'prodigy)
+(require 'prodigy)
+(global-set-key (kbd "C-x M-m") 'prodigy)
 
-;; ;; Font lock dash.el
-;; (eval-after-load "dash" '(dash-enable-font-lock))
+;; Font lock dash.el
+(eval-after-load "dash" '(dash-enable-font-lock))
 
-;; ;; Default setup of smartparens
-;; (require 'smartparens-config)
-;; (setq sp-autoescape-string-quote nil)
-;; (--each '(css-mode-hook
-;;           restclient-mode-hook
-;;           js-mode-hook
-;;           java-mode
-;;           ruby-mode
-;;           markdown-mode
-;;           groovy-mode
-;;           scala-mode)
-;;   (add-hook it 'turn-on-smartparens-mode))
+;; Default setup of smartparens
+(require 'smartparens-config)
+(setq sp-autoescape-string-quote nil)
+(--each '(css-mode-hook
+          restclient-mode-hook
+          java-mode
+          markdown-mode)
+  (add-hook it 'turn-on-smartparens-mode))
 
-;; ;; Language specific setup files
-;; (require 'setup-go-mode)
-;; (eval-after-load 'js2-mode '(require 'setup-js2-mode))
-;; (eval-after-load 'ruby-mode '(require 'setup-ruby-mode))
-;; (eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
-;; (eval-after-load 'markdown-mode '(require 'setup-markdown-mode))
-;; (eval-after-load 'elm-mode '(require 'setup-elm-mode))
+;; Language specific setup files
+(eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
+(eval-after-load 'markdown-mode '(require 'setup-markdown-mode))
+(eval-after-load 'elm-mode '(require 'setup-elm-mode))
 
-;; ;; Load stuff on demand
-;; (autoload 'skewer-start "setup-skewer" nil t)
-;; (autoload 'skewer-demo "setup-skewer" nil t)
-;; (autoload 'auto-complete-mode "auto-complete" nil t)
+;; Load stuff on demand
+(autoload 'skewer-start "setup-skewer" nil t)
+(autoload 'skewer-demo "setup-skewer" nil t)
+(autoload 'auto-complete-mode "auto-complete" nil t)
 
-;; ;; Map files to modes
-;; (require 'mode-mappings)
+;; Map files to modes
+(require 'mode-mappings)
 
-;; ;; Calendar stuff
-;; (require 'setup-calendar)
 
-;; ;; Highlight escape sequences
-;; (require 'highlight-escape-sequences)
-;; (hes-mode)
-;; (put 'font-lock-regexp-grouping-backslash 'face-alias 'font-lock-builtin-face)
+;; Calendar stuff
+(require 'setup-calendar)
 
-;; ;; Visual regexp
-;; (require 'visual-regexp)
-;; (define-key global-map (kbd "M-&") 'vr/query-replace)
-;; (define-key global-map (kbd "M-/") 'vr/replace)
+;; Highlight escape sequences
+(require 'highlight-escape-sequences)
+(hes-mode)
+(put 'font-lock-regexp-grouping-backslash 'face-alias 'font-lock-builtin-face)
 
-;; ;; Functions (load all files in defuns-dir)
-;; (setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
-;; (dolist (file (directory-files defuns-dir t "\\w+"))
-;;   (when (file-regular-p file)
-;;     (load file)))
+;; Visual regexp
+(require 'visual-regexp)
+(define-key global-map (kbd "M-&") 'vr/query-replace)
+(define-key global-map (kbd "M-/") 'vr/replace)
 
-;; (require 'expand-region)
-;; (require 'multiple-cursors)
-;; (require 'delsel)
-;; (require 'jump-char)
-;; (require 'eproject)
-;; (require 'smart-forward)
-;; (require 'change-inner)
-;; (require 'multifiles)
+;; Functions (load all files in defuns-dir)
+(setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
+(dolist (file (directory-files defuns-dir t "\\w+"))
+  (when (file-regular-p file)
+    (load file)))
 
-;; ;; Don't use expand-region fast keys
-;; (setq expand-region-fast-keys-enabled nil)
+(require 'expand-region)
+(require 'delsel)
+(require 'jump-char)
+(require 'eproject)
+(require 'smart-forward)
+(require 'change-inner)
+(require 'multifiles)
 
-;; ;; Show expand-region command used
-;; (setq er--show-expansion-message t)
+;; Don't use expand-region fast keys
+(setq expand-region-fast-keys-enabled nil)
 
-;; ;; Fill column indicator
-;; (require 'fill-column-indicator)
-;; (setq fci-rule-color "#111122")
+;; Show expand-region command used
+(setq er--show-expansion-message t)
 
-;; ;; Browse kill ring
-;; (require 'browse-kill-ring)
-;; (setq browse-kill-ring-quit-action 'save-and-restore)
+;; Fill column indicator
+(require 'fill-column-indicator)
+(setq fci-rule-color "#111122")
 
-;; ;; Smart M-x is smart
-;; (require 'smex)
-;; (smex-initialize)
+;; Browse kill ring
+(require 'browse-kill-ring)
+(setq browse-kill-ring-quit-action 'save-and-restore)
 
-;; ;; Setup key bindings
-;; (require 'key-bindings)
+;; Smart M-x is smart
+(require 'smex)
+(smex-initialize)
 
-;; ;; Misc
-;; ;(require 'project-archetypes)
-;; (require 'my-misc)
-;; (when is-mac (require 'mac))
+;; Setup key bindings
+(require 'key-bindings)
 
-;; ;; Elisp go-to-definition with M-. and back again with M-,
-;; (autoload 'elisp-slime-nav-mode "elisp-slime-nav")
-;; (add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t) (eldoc-mode 1)))
+;; Elisp go-to-definition with M-. and back again with M-,
+(autoload 'elisp-slime-nav-mode "elisp-slime-nav")
+(add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t) (eldoc-mode 1)))
 
-;; ;; Emacs server
-;; (require 'server)
-;; (unless (server-running-p)
-;;   (server-start))
+;; Emacs server
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
-;; ;; Run at full power please
-;; (put 'downcase-region 'disabled nil)
-;; (put 'upcase-region 'disabled nil)
-;; (put 'narrow-to-region 'disabled nil)
+;; Run at full power please
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 
-;; ;; Diminish modeline clutter
-;; (require 'diminish)
-;; (diminish 'yas-minor-mode)
-
-;; ;; Unicode without the hassle
-;; (require 'unicode-mode)
+;; Diminish modeline clutter
+(require 'diminish)
+(diminish 'yas-minor-mode)
 
 ;; ;; Conclude init by setting up specifics for the current user
 ;; (when (file-exists-p user-settings-dir)
