@@ -1,9 +1,13 @@
-;; ----------------------------------------------------------------------------
-;;; Henning Jansen 2025
+;;; package --- init.el
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
 ;;;   Developed on GNU Emacs 29.4 (build 2, x86_64-pc-linux-gnu,
 ;;;   GTK+ Version 3.24.41, cairo version 1.18.0) of 2024-12-29
-;;; ----------------------------------------------------------------------------
-
+;;;
+;;;   Emacs init.el mostly copied from Christian Johansen and Magnar Sveen.
+;;;
+;;; Code:
 
 ;; Menubar, toolbar and scrollbar
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -35,23 +39,6 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
-;; Are we on a mac?
-(setq is-mac (equal system-type 'darwin))
-
-;; Technomancy's Better Defaults
-;; https://git.sr.ht/~technomancy/better-defaults
-
-(add-to-list 'load-path "./better-defaults")
-(require 'better-defaults)
-
-;; Set up appearance early
-(require 'appearance)
-
-;; Settings for currently logged in user
-(setq user-settings-dir
-      (concat user-emacs-directory "users/" user-login-name))
-(add-to-list 'load-path user-settings-dir)
-
 ;; Add external projects to load path
 (dolist (project (directory-files site-lisp-dir t "\\w+"))
   (when (file-directory-p project)
@@ -77,6 +64,14 @@
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
+;; Technomancy's Better Defaults
+;;https://git.sr.ht/~technomancy/better-defaults
+
+(add-to-list 'load-path "./better-defaults")
+(require 'better-defaults)
+
+;; Set up appearance early
+(require 'appearance)
 
 ;; Setup packages
 (require 'setup-package)
@@ -219,13 +214,6 @@
 
 ;; Lets start with a smattering of sanity
 (require 'sane-defaults)
-
-;; Setup environment variables from the user's shell.
-(when is-mac
-  (require-package 'exec-path-from-shell)
-  (exec-path-from-shell-initialize))
-
-
 
 ;; Setup extensions
 (eval-after-load 'org '(require 'setup-org))

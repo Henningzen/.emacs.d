@@ -1,3 +1,11 @@
+;;; package --- key-bindings
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
+;;;   My keybindings, mostly copied from Christian Johansen and Magnar Sveen.
+;;;
+;;; Code:
+
 ;; C-x REALLY QUIT
 (global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
 
@@ -22,12 +30,7 @@
 (global-set-key (kbd "C-w") 'kill-region-or-backward-word)
 
 ;; Use M-w for copy-line if no active region
-(global-set-key (kbd "M-w") 'save-region-or-current-line)              ;; TODO
-(global-set-key (kbd "s-w") 'save-region-or-current-line)              ;; TODO
-(global-set-key (kbd "M-W") (lambda (save-region-or-current-line 1)))  ;; TODO
-
-(global-set-key (kbd "s-i") 'copy-inner)
-(global-set-key (kbd "s-o") 'copy-outer)
+(global-set-key (kbd "M-w") 'save-region-or-current-line)
 
 ;; File finding
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
@@ -40,16 +43,22 @@
 (fset 'quick-switch-buffer [?\C-x ?b return])
 (global-set-key (kbd "s-b") 'quick-switch-buffer)
 
+;; Bury current buffer
 (global-set-key (kbd "s-y") 'bury-buffer)
 
-
 ;; Window switching
-(windmove-default-keybindings) ;; Shift+direction
-(global-set-key (kbd "C-x -") 'toggle-window-split)
-(global-set-key (kbd "C-x C--") 'rotate-windows)
+(windmove-default-keybindings) ;; Shift + direction
+(global-set-key (kbd "C-x -") 'toggle-window-split)  ;; TODO
+(global-set-key (kbd "C-x C--") 'rotate-windows)     ;; TODO
 (global-unset-key (kbd "C-x C-+")) ;; don't zoom like this
 
-;;(global-set-key (kbd "C-x 3") 'split-window-right-and-move-there-dammit) ;; TODO
+(global-set-key (kbd "C-x 3") 'split-window-right-and-move-there-dammit) ;; TODO
+
+;; Move windows, even in org-mode
+(global-set-key (kbd "<s-right>") 'windmove-right)
+(global-set-key (kbd "<s-left>") 'windmove-left)
+(global-set-key (kbd "<s-up>") 'windmove-up)
+(global-set-key (kbd "<s-down>") 'windmove-down)
 
 ;; Add region to *multifile*
 (global-set-key (kbd "C-!") 'mf/mirror-region-in-multifile)
