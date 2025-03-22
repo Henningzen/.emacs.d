@@ -30,17 +30,18 @@ very intrusive and dangerously addictive.
 The first time you start emacs, it will install some additional packages
 that are best handled by the package manager.
 
+* browse-kill-ring
+* change-inner
 * diminish
 * dash
 * datomic-snippets
-* find-file-in-project
-* browse-kill-ring
 * expand-region
+* find-file-in-project
 * jump-char
-* smart-forward
-* change-inner
 * multifiles
+* smart-forward
 * smex
+* tagedit
 
 In addition, make sure you have:
 
