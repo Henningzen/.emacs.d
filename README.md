@@ -59,29 +59,21 @@ by Erik L. Arneson.
 
 * Quit emacs with `C-x r q`, mnemonic *Really Quit* is easier that Googling how to quit Vim.
 
- * Find file in project with `C-x o`, in dir with `C-x C-f`, recent with `C-x f`
+* Find file in project with `C-x o`, in dir with `C-x C-f`, recent with `C-x f`
 
- * Add your user- and project-specific stuff in .emacs.d/users/[machine name]/*.el
-
- * `C-h` is rebound to backspace, like in the shell. Get help on `F1` instead.
-
- * Autocomplete with `C-.` (autocomplete entire lines with `C-:`)
-
- * expand-region: Find its bound key by doing `F1 f er/expand-region`
+* Autocomplete with `C-.` (autocomplete entire lines with `C-:`)
 
  * Undo with `C-_` and redo with `M-_`. Watch the undo-tree with `C-x u`
-
- * ~~Quickly jump anywhere in the buffer with `C-ø` then the starting letter of a word.~~
-
- * Indent and clean up white space in the entire buffer with `C-c n`
-
- * We recommend rebinding Caps Lock to Ctrl and use that instead of the often badly placed Ctrl-key.
 
 ## Using Emacs
 
 * `C      ` Shorthand for the ctrl-key
 * `M      ` Shorthand for the meta-key (bound to cmd on my mac settings)
 * `S      ` Shorthand for the shift-key
+
+### Editing text
+
+* `C-c d  ` Duplicate line.
 
 ### Files
 
@@ -97,9 +89,9 @@ by Erik L. Arneson.
 ### Cut copy and paste
 
 * `C-space` Start marking stuff. C-g to cancel.
-* `C-w    ` Cut (aka kill)
+* `C-w    ` Cut word backwards
 * `C-k    ` Cut till end of line
-* `M-w    ` Copy
+* `M-w    ` Copy (active region or end of line if no active region)
 * `C-y    ` Paste (aka yank)
 * `M-y    ` Cycle last paste through previous kills
 * `C-x C-y` Choose what to paste from previous kills
@@ -107,7 +99,7 @@ by Erik L. Arneson.
 
 ### General
 
-* `C-g    ` Quit out of whatever mess you've gotten yourself into
+* `C-g    ` Quit any started process
 * `M-x    ` Run a command by name
 * `C-.    ` Autocomplete
 * `C-_    ` Undo
@@ -140,12 +132,15 @@ by Erik L. Arneson.
 * `F1 r   ` Emacs' extensive documentation
 
 ### Advanced usage
+
 * `C-c j e j` copy-edn-as-json
 * `C-c j j e` copy-json-as-edn
 
-## TODO
-* Warning (comp): perspective.el:2219:6: Warning: ‘ibuffer-awhen’ is an obsolete macro (as of 29.1); use ‘when-let’ instead.
-* Warning (comp): paredit.el:714:33: Warning: ‘point-at-eol’ is an obsolete function (as of 29.1); use ‘line-end-position’ or ‘pos-eol’ instead.
-* Warning (comp): paredit.el:723:42: Warning: ‘point-at-bol’ is an obsolete function (as of 29.1); use ‘line-beginning-position’ or ‘pos-bol’ instead.
-* Warning (comp): datomic-snippets.el:87:48: Warning: reference to free variable ‘datomic-snippets-root’
-* Warning (comp): datomic-snippets.el:90:6: Warning: ‘yas/load-directory’ is an obsolete function (as of yasnippet 0.8); use ‘yas-load-directory’ instead.
+### Paredit
+
+* `C-<right>` Slurp.
+* `C-<left> ` Barf.
+* `M-s      ` Splice list at point.
+* `M-<up>   ` Splice list at point and delete backward.
+* `M-<down> ` Splice list at point and delete forward.
+

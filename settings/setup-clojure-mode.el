@@ -1,10 +1,14 @@
+;;; package --- setup-clojure-mode.el
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
+;;;   My keybindings, mostly copied from Christian Johansen and Magnar Sveen.
+;;;
+;;; Code:
+
 (require 'clojure-mode)
 (require 'clojure-mode-extra-font-locking)
 
-;; To get linting, install joker:
-;;
-;;     brew install candid82/brew/joker
-;;
 (require 'flycheck-joker)
 
 (defadvice clojure-test-run-tests (before save-first activate)

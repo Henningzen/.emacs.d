@@ -1,3 +1,11 @@
+;;; package --- apperance.el
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
+;;;   My keybindings, mostly copied from Christian Johansen and Magnar Sveen.
+;;;
+;;; Code:
+
 (setq font-lock-maximum-decoration t
       color-theme-is-global t
       truncate-partial-width-windows nil)

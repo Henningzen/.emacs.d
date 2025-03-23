@@ -1,3 +1,11 @@
+;;; package --- magit.el
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
+;;;   My keybindings, mostly copied from Christian Johansen and Magnar Sveen.
+;;;
+;;; Code:
+
 ;; expand sections by default
 (setq magit-section-initial-visibility-alist
       '((untracked . show)

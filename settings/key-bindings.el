@@ -1,4 +1,4 @@
-;;; package --- key-bindings
+;;; package --- key-bindings.el
 ;;;
 ;;; Commentary:
 ;;;   Henning Jansen 2025.
@@ -55,10 +55,10 @@
 (global-set-key (kbd "C-x 3") 'split-window-right-and-move-there-dammit) ;; TODO
 
 ;; Move windows, even in org-mode
-(global-set-key (kbd "<s-right>") 'windmove-right)
-(global-set-key (kbd "<s-left>") 'windmove-left)
-(global-set-key (kbd "<s-up>") 'windmove-up)
-(global-set-key (kbd "<s-down>") 'windmove-down)
+;; (global-set-key (kbd "<s-right>") 'windmove-right)
+;; (global-set-key (kbd "<s-left>") 'windmove-left)
+;; (global-set-key (kbd "<s-up>") 'windmove-up)
+;; (global-set-key (kbd "<s-down>") 'windmove-down)
 
 ;; Add region to *multifile*
 (global-set-key (kbd "C-!") 'mf/mirror-region-in-multifile)
@@ -131,6 +131,9 @@
 ;; Find files by name and display results in dired
 (global-set-key (kbd "M-s f") 'find-name-dired)
 
-
+;; Duplicate current line
+(global-set-key (kbd "C-c d") 'duplicate-line)
 
 (provide 'key-bindings)
+;;; key-bindings.el ends here
+

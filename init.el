@@ -338,3 +338,5 @@
 ;; ;; Slides
 ;; (require 'slides)
 ;; (put 'narrow-to-page 'disabled nil)
+(provide 'init)
+;;; init.el ends here
