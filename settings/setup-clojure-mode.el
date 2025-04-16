@@ -23,30 +23,31 @@
 (dolist (checker '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
   (setq flycheck-checkers (cons checker (delq checker flycheck-checkers))))
 
-(setq cljr-favor-prefix-notation nil)
-(setq cljr-favor-private-functions nil)
-(setq cljr-insert-newline-after-require nil)
-(setq cljr-assume-language-context "clj")
+;; (setq cljr-favor-prefix-notation nil)
+;; (setq cljr-favor-private-functions nil)
+;; (setq cljr-insert-newline-after-require nil)
+;; (setq cljr-assume-language-context "clj")
 
-(cljr-add-keybindings-with-modifier "C-s-")
+;;(cljr-add-keybindings-with-modifier "C-s-")
+
 (define-key clj-refactor-map (kbd "C-x C-r") 'cljr-rename-file)
 
 (defun clj-goto-toplevel ()
   (interactive)
-  (cljr--goto-toplevel))
+  (cljr--goto-toplevel));
 
-(define-key clojure-mode-map (kbd "C-S-M-u") 'clj-goto-toplevel)
+;;(define-key clojure-mode-map (kbd "C-S-M-u") 'clj-goto-toplevel)
 
-(define-key clojure-mode-map (kbd "C-:") 'hippie-expand-lines)
-(define-key clojure-mode-map (kbd "C-\"") 'clojure-toggle-keyword-string)
+;; (define-key clojure-mode-map (kbd "C-:") 'hippie-expand-lines)
+;; (define-key clojure-mode-map (kbd "C-\"") 'clojure-toggle-keyword-string)
 
-(define-key clojure-mode-map [remap paredit-forward] 'clojure-forward-logical-sexp)
-(define-key clojure-mode-map [remap paredit-backward] 'clojure-backward-logical-sexp)
+;; (define-key clojure-mode-map [remap paredit-forward] 'clojure-forward-logical-sexp)
+;; (define-key clojure-mode-map [remap paredit-backward] 'clojure-backward-logical-sexp)
 
-(require 'html-to-hiccup)
-(define-key clojure-mode-map (kbd "H-k") 'html-to-hiccup-convert-region)
+;; (require 'html-to-hiccup)
+;; (define-key clojure-mode-map (kbd "H-k") 'html-to-hiccup-convert-region)
+
 ;; Don't tread the last one
-
 (setq clojure-thread-all-but-last t)
 
 (defun clojure--remove-superfluous-parens ()
@@ -63,52 +64,44 @@
 ;; projects.
 (setq cider-enrich-classpath t)
 
-(defun clojure--remove-superfluous-parens ()
-  "Remove extra parens from a form."
-  (when (looking-at "([^ )]+)")
-    (let ((delete-pair-blink-delay 0))
-      (delete-pair))))
-
-;; Don't tread the last one
-;;(setq clojure-thread-all-but-last nil)
-
 ;; kaocha
 
 (require 'kaocha-runner)
 
-(defun kaocha-runner-run-relevant-tests ()
-  (when (cljr--project-depends-on-p "kaocha")
-    (if (clj--is-test? (buffer-file-name))
-        (kaocha-runner--run-tests
-         (kaocha-runner--testable-sym (cider-current-ns) nil (eq major-mode 'clojurescript-mode))
-         nil t)
-      (let ((original-buffer (current-buffer)))
-        (save-window-excursion
-          (let* ((file (clj-other-file-name))
-                 (alternative-file (clj-find-alternative-name file)))
-            (cond
-             ((file-exists-p file) (find-file file))
-             ((file-exists-p alternative-file) (find-file alternative-file))))
-          (when (clj--is-test? (buffer-file-name))
-            (kaocha-runner--run-tests
-             (kaocha-runner--testable-sym (cider-current-ns) nil (eq major-mode 'clojurescript-mode))
-             nil t original-buffer)))))))
+;; (defun kaocha-runner-run-relevant-tests ()
+;;   "TODO: Document test-runner."
+;;   (when (cljr--project-depends-on-p "kaocha")
+;;     (if (clj--is-test? (buffer-file-name))
+;;         (kaocha-runner--run-tests
+;;          (kaocha-runner--testable-sym (cider-current-ns) nil (eq major-mode 'clojurescript-mode))
+;;          nil t)
+;;       (let ((original-buffer (current-buffer)))
+;;         (save-window-excursion
+;;           (let* ((file (clj-other-file-name))
+;;                  (alternative-file (clj-find-alternative-name file)))
+;;             (cond
+;;              ((file-exists-p file) (find-file file))
+;;              ((file-exists-p alternative-file) (find-file alternative-file))))
+;;           (when (clj--is-test? (buffer-file-name))
+;;             (kaocha-runner--run-tests
+;;              (kaocha-runner--testable-sym (cider-current-ns) nil (eq major-mode 'clojurescript-mode))
+;;              nil t original-buffer)))))))
 
-;;(add-hook 'cider-file-loaded-hook #'kaocha-runner-run-relevant-tests)
+;; ;;(add-hook 'cider-file-loaded-hook #'kaocha-runner-run-relevant-tests)
 
-(define-key clojure-mode-map (kbd "C-c k t") 'kaocha-runner-run-test-at-point)
-(define-key clojure-mode-map (kbd "C-c k r") 'kaocha-runner-run-tests)
-(define-key clojure-mode-map (kbd "C-c k a") 'kaocha-runner-run-all-tests)
-(define-key clojure-mode-map (kbd "C-c k w") 'kaocha-runner-show-warnings)
-(define-key clojure-mode-map (kbd "C-c k h") 'kaocha-runner-hide-windows)
+;; (define-key clojure-mode-map (kbd "C-c k t") 'kaocha-runner-run-test-at-point)
+;; (define-key clojure-mode-map (kbd "C-c k r") 'kaocha-runner-run-tests)
+;; (define-key clojure-mode-map (kbd "C-c k a") 'kaocha-runner-run-all-tests)
+;; (define-key clojure-mode-map (kbd "C-c k w") 'kaocha-runner-show-warnings)
+;; (define-key clojure-mode-map (kbd "C-c k h") 'kaocha-runner-hide-windows)
 
 (defun enable-clojure-mode-stuff ()
   (clj-refactor-mode 1))
 
 (add-hook 'clojure-mode-hook 'enable-clojure-mode-stuff)
 
-(require 'symbol-focus)
-(define-key clojure-mode-map (kbd "M-s-f") 'sf/focus-at-point)
+;; (require 'symbol-focus)
+;; (define-key clojure-mode-map (kbd "M-s-f") 'sf/focus-at-point)
 
 (defun clj-duplicate-top-level-form ()
   (interactive)
@@ -117,16 +110,16 @@
     (insert (cljr--extract-sexp) "\n")
     (cljr--just-one-blank-line)))
 
-(define-key clojure-mode-map (kbd "M-s-d") 'clj-duplicate-top-level-form)
+;; (define-key clojure-mode-map (kbd "M-s-d") 'clj-duplicate-top-level-form)
 
-(add-to-list 'cljr-project-clean-functions 'cleanup-buffer)
+;; (add-to-list 'cljr-project-clean-functions 'cleanup-buffer)
 
-(define-key clojure-mode-map (kbd "C->") 'cljr-thread)
-(define-key clojure-mode-map (kbd "C-<") 'cljr-unwind)
+;; (define-key clojure-mode-map (kbd "C->") 'cljr-thread)
+;; (define-key clojure-mode-map (kbd "C-<") 'cljr-unwind)
 
-(define-key clojure-mode-map (kbd "s-j") 'clj-jump-to-other-file)
+;; (define-key clojure-mode-map (kbd "s-j") 'clj-jump-to-other-file)
 
-(define-key clojure-mode-map (kbd "C-.") 'clj-hippie-expand-no-case-fold)
+;; (define-key clojure-mode-map (kbd "C-.") 'clj-hippie-expand-no-case-fold)
 
 (defun clj-hippie-expand-no-case-fold ()
   (interactive)
@@ -155,13 +148,13 @@
 
 (cider-register-cljs-repl-type 'boot-up-cljs #'cider-figwheel-workaround--boot-up-cljs)
 
-(define-key cider-repl-mode-map (kbd "<home>") nil)
-(define-key cider-repl-mode-map (kbd "C-,") 'complete-symbol)
-(define-key cider-repl-mode-map (kbd "M-s") nil)
-(define-key cider-repl-mode-map (kbd "<return>") 'cider-repl-closing-return)
-(define-key cider-mode-map (kbd "C-,") 'complete-symbol)
-(define-key cider-mode-map (kbd "C-c C-q") 'nrepl-close)
-(define-key cider-mode-map (kbd "C-c C-Q") 'cider-quit)
+;; (define-key cider-repl-mode-map (kbd "<home>") nil)
+;; (define-key cider-repl-mode-map (kbd "C-,") 'complete-symbol)
+;; (define-key cider-repl-mode-map (kbd "M-s") nil)
+;; (define-key cider-repl-mode-map (kbd "<return>") 'cider-repl-closing-return)
+;; (define-key cider-mode-map (kbd "C-,") 'complete-symbol)
+;; (define-key cider-mode-map (kbd "C-c C-q") 'nrepl-close)
+;; (define-key cider-mode-map (kbd "C-c C-Q") 'cider-quit)
 
 (defun cider-repl-command (cmd)
   (set-buffer (cider-current-repl-buffer))
@@ -188,20 +181,20 @@
   (cider-load-current-buffer)
   (cider-repl-command "(run-tests)"))
 
-(define-key cider-mode-map (kbd "C-c M-r") 'cider-repl-reset)
-(define-key cider-mode-map (kbd "C-c M-k") 'cider-repl-compile-and-restart)
-(define-key cider-mode-map (kbd "C-c t") 'cider-repl-run-clj-test)
+;; (define-key cider-mode-map (kbd "C-c M-r") 'cider-repl-reset)
+;; (define-key cider-mode-map (kbd "C-c M-k") 'cider-repl-compile-and-restart)
+;; (define-key cider-mode-map (kbd "C-c t") 'cider-repl-run-clj-test)
 
 (defun cider-find-and-clear-repl-buffer ()
   (interactive)
   (cider-find-and-clear-repl-output t))
 
-(define-key cider-mode-map (kbd "C-c C-l") 'cider-find-and-clear-repl-buffer)
-(define-key cider-repl-mode-map (kbd "C-c C-l") 'cider-repl-clear-buffer)
+;; (define-key cider-mode-map (kbd "C-c C-l") 'cider-find-and-clear-repl-buffer)
+;; (define-key cider-repl-mode-map (kbd "C-c C-l") 'cider-repl-clear-buffer)
 
-(setq cljr-clojure-test-declaration "[clojure.test :refer [deftest is testing]]")
-(setq cljr-cljs-clojure-test-declaration cljr-clojure-test-declaration)
-(setq cljr-cljc-clojure-test-declaration cljr-clojure-test-declaration)
+;; (setq cljr-clojure-test-declaration "[clojure.test :refer [deftest is testing]]")
+;; (setq cljr-cljs-clojure-test-declaration cljr-clojure-test-declaration)
+;; (setq cljr-cljc-clojure-test-declaration cljr-clojure-test-declaration)
 
 ;; indent [quiescent.dom :as d] specially
 
@@ -309,10 +302,9 @@
   (db/query 1))
 
 ;; Don't warn me about the dangers of clj-refactor, fire the missiles!
-(setq cljr-warn-on-eval nil)
+;;(setq cljr-warn-on-eval nil)
 
 ;; Use figwheel for cljs repl
-
 (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
 
 ;; Indent and highlight more commands
@@ -360,11 +352,11 @@
     (while (search-forward "(expect-focused" nil t)
       (delete-char -8))))
 
-(define-key clj-refactor-map
-  (cljr--key-pairs-with-modifier "C-s-" "xf") 'my-toggle-expect-focused)
+;; (define-key clj-refactor-map
+;;   (cljr--key-pairs-with-modifier "C-s-" "xf") 'my-toggle-expect-focused)
 
-(define-key clj-refactor-map
-  (cljr--key-pairs-with-modifier "C-s-" "xr") 'my-remove-all-focused)
+;; (define-key clj-refactor-map
+;;   (cljr--key-pairs-with-modifier "C-s-" "xr") 'my-remove-all-focused)
 
 ;; Focus tests
 
@@ -384,11 +376,11 @@
     (while (search-forward " ^:test-refresh/focus" nil t)
       (delete-region (match-beginning 0) (match-end 0)))))
 
-(define-key clj-refactor-map
-  (cljr--key-pairs-with-modifier "C-s-" "ft") 'my-toggle-focused-test)
+;; (define-key clj-refactor-map
+;;   (cljr--key-pairs-with-modifier "C-s-" "ft") 'my-toggle-focused-test)
 
-(define-key clj-refactor-map
-  (cljr--key-pairs-with-modifier "C-s-" "bt") 'my-blur-all-tests)
+;; (define-key clj-refactor-map
+;;   (cljr--key-pairs-with-modifier "C-s-" "bt") 'my-blur-all-tests)
 
 ;; Cycle between () {} []
 

@@ -23,7 +23,7 @@ This second time over I have also consulted and copied from [Christian Johansen]
 
 
 Feel free to clone or copy. Emacs is most recommendable, even though it can be
-very intrusive and dangerously addictive.
+very intrusive on your daily habits as well as dangerously addictive.
 
 ## Setup
 
@@ -48,12 +48,10 @@ In addition, make sure you have:
 * cloned [Technomancy's better-defaults](https://git.sr.ht/~technomancy/better-defaults)
 * Created a custom.el file
 
-
 ## Install emacs on Linux
 
 I have installed Emacs from source, using this guide [Installing Emacs 29.1 on Ubuntu 22.04 LTS](https://arnesonium.com/2023/07/emacs-29-1-on-ubuntu-22-04-lts)
 by Erik L. Arneson.
-
 
 ## Using these emacs settings
 
@@ -116,6 +114,14 @@ by Erik L. Arneson.
 * `C-x C-i` Go to symbol
 * `C-s    ` Search forward. Press `C-s` again to go further.
 * `C-r    ` Search backward. Press `C-r` again to go further.
+* `M-.    ` Goto definition ...
+* `M-,    ` ... and return
+* `M-s-f  ` Focus at point
+* `M-s-d  ` Duplicate top-level form
+
+### Search
+* `C-c o  ` List lines matching regexp.
+* `S-p f  ` Fuzzy-find-file-search.
 
 ### Window management
 
@@ -144,3 +150,5 @@ by Erik L. Arneson.
 * `M-<up>   ` Splice list at point and delete backward.
 * `M-<down> ` Splice list at point and delete forward.
 
+### Org mode
+* `C-c C-t  ` Create a TODO on a heading.

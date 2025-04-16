@@ -53,7 +53,7 @@
 
 ;; Font for in Emacs 29/Ubuntu
 (set-frame-font "DejaVu Sans Mono")
-(set-face-attribute 'default nil :height 140)
+(set-face-attribute 'default nil :height 120)
 
 ;;(set-frame-font "Source Code Pro Medium")                    ;; TODO: install font
 

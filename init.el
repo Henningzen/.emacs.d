@@ -67,7 +67,7 @@
 ;; Technomancy's Better Defaults
 ;;https://git.sr.ht/~technomancy/better-defaults
 
-(add-to-list 'load-path "./better-defaults")
+(add-to-list 'load-path "/home/jansenh/.emacs.d/better-defaults")
 (require 'better-defaults)
 
 ;; Set up appearance early
