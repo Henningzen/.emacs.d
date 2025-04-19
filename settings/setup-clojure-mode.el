@@ -68,26 +68,26 @@
 
 (require 'kaocha-runner)
 
-;; (defun kaocha-runner-run-relevant-tests ()
-;;   "TODO: Document test-runner."
-;;   (when (cljr--project-depends-on-p "kaocha")
-;;     (if (clj--is-test? (buffer-file-name))
-;;         (kaocha-runner--run-tests
-;;          (kaocha-runner--testable-sym (cider-current-ns) nil (eq major-mode 'clojurescript-mode))
-;;          nil t)
-;;       (let ((original-buffer (current-buffer)))
-;;         (save-window-excursion
-;;           (let* ((file (clj-other-file-name))
-;;                  (alternative-file (clj-find-alternative-name file)))
-;;             (cond
-;;              ((file-exists-p file) (find-file file))
-;;              ((file-exists-p alternative-file) (find-file alternative-file))))
-;;           (when (clj--is-test? (buffer-file-name))
-;;             (kaocha-runner--run-tests
-;;              (kaocha-runner--testable-sym (cider-current-ns) nil (eq major-mode 'clojurescript-mode))
-;;              nil t original-buffer)))))))
+(defun kaocha-runner-run-relevant-tests ()
+  "TODO: Document test-runner."
+  (when (cljr--project-depends-on-p "kaocha")
+    (if (clj--is-test? (buffer-file-name))
+        (kaocha-runner--run-tests
+         (kaocha-runner--testable-sym (cider-current-ns) nil (eq major-mode 'clojurescript-mode))
+         nil t)
+      (let ((original-buffer (current-buffer)))
+        (save-window-excursion
+          (let* ((file (clj-other-file-name))
+                 (alternative-file (clj-find-alternative-name file)))
+            (cond
+             ((file-exists-p file) (find-file file))
+             ((file-exists-p alternative-file) (find-file alternative-file))))
+          (when (clj--is-test? (buffer-file-name))
+            (kaocha-runner--run-tests
+             (kaocha-runner--testable-sym (cider-current-ns) nil (eq major-mode 'clojurescript-mode))
+             nil t original-buffer)))))))
 
-;; ;;(add-hook 'cider-file-loaded-hook #'kaocha-runner-run-relevant-tests)
+;;(add-hook 'cider-file-loaded-hook #'kaocha-runner-run-relevant-tests)
 
 ;; (define-key clojure-mode-map (kbd "C-c k t") 'kaocha-runner-run-test-at-point)
 ;; (define-key clojure-mode-map (kbd "C-c k r") 'kaocha-runner-run-tests)
