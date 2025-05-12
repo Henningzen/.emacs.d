@@ -2,7 +2,7 @@
 ;;;
 ;;; Commentary:
 ;;;   Henning Jansen 2025.
-;;;   My keybindings, mostly copied from Christian Johansen and Magnar Sveen.
+;;;   My keybindings.
 ;;;
 ;;; Code:
 
@@ -13,6 +13,7 @@
 (global-set-key (kbd "C-.") 'hippie-expand-no-case-fold)
 (global-set-key (kbd "C-:") 'hippie-expand-lines)
 (global-set-key (kbd "C-,") 'completion-at-point)
+(global-set-key (kbd "C-<tab>") 'completion-at-point)
 
 (global-set-key (kbd "C-<f10>") 'menu-bar-mode)
 
@@ -25,6 +26,9 @@
 
 ;; Find file in project
 (global-set-key (kbd "C-x o") 'find-file-in-project)
+
+;; Open recent files
+(global-set-key (kbd "C-x f") 'recentf-open)
 
 ;; Killing text
 (global-set-key (kbd "C-w") 'kill-region-or-backward-word)
@@ -47,69 +51,16 @@
 (global-set-key (kbd "s-y") 'bury-buffer)
 
 ;; Window switching
-(windmove-default-keybindings) ;; Shift + direction
-(global-set-key (kbd "C-x -") 'toggle-window-split)  ;; TODO
-(global-set-key (kbd "C-x C--") 'rotate-windows)     ;; TODO
-(global-unset-key (kbd "C-x C-+")) ;; don't zoom like this
+(windmove-default-keybindings) ;; Shift + direction/arrow key
 
-(global-set-key (kbd "C-x 3") 'split-window-right-and-move-there-dammit) ;; TODO
+;; Windows rotation and swapping
+(global-set-key (kbd "C-x -") 'toggle-window-split)
+(global-set-key (kbd "C-x C--") 'rotate-windows)
+(global-unset-key (kbd "C-x C-+")) ;; Unset default emacs zoom
 
-;; Move windows, even in org-mode
-;; (global-set-key (kbd "<s-right>") 'windmove-right)
-;; (global-set-key (kbd "<s-left>") 'windmove-left)
-;; (global-set-key (kbd "<s-up>") 'windmove-up)
-;; (global-set-key (kbd "<s-down>") 'windmove-down)
-
-;; Add region to *multifile*
-(global-set-key (kbd "C-!") 'mf/mirror-region-in-multifile)
-
-;; Help should search more than just commands
-(global-set-key (kbd "<f1> a") 'apropos)
-
-;; Navigation bindings
-(global-set-key [remap goto-line] 'goto-line-with-feedback)
-
-(global-set-key (kbd "<prior>") 'beginning-of-buffer)
-(global-set-key (kbd "<home>") 'beginning-of-buffer)
-(global-set-key (kbd "<next>") 'end-of-buffer)
-(global-set-key (kbd "<end>") 'end-of-buffer)
-(global-set-key (kbd "M-<up>") 'beginning-of-buffer)
-(global-set-key (kbd "M-<down>") 'end-of-buffer)
-(global-set-key (kbd "M-p") 'backward-paragraph)
-(global-set-key (kbd "M-n") 'forward-paragraph)
-(global-set-key (kbd "H-n") 'goto-next-line-with-same-indentation)
-(global-set-key (kbd "H-p") 'goto-prev-line-with-same-indentation)
-
-;; Tags
-(global-set-key (kbd "M-?") 'tags-search)
-(global-set-key (kbd "M-B") 'goto-last-modification)
-
-;; Completion at point
-(global-set-key (kbd "C-<tab>") 'completion-at-point)
-
-;; Search with deadgrep/ripgrep
-(require 'deadgrep)
-(global-set-key (kbd "<f6>") #'deadgrep)
-
-;; Query replace regex key binding
-(global-set-key (kbd "M-&") 'query-replace-regexp)
-
-;; Comment/uncomment block
-(global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
-(global-set-key (kbd "C-c u") 'uncomment-region)
-
-;; Eval buffer
-(global-set-key (kbd "C-c C-k") 'eval-buffer)
-
-(global-set-key (kbd "C-x m") 'magit-status-fullscreen)
-(autoload 'magit-status-fullscreen "magit")
-
-;; Line movement
-(global-set-key (kbd "<C-S-down>") 'move-text-down)
-(global-set-key (kbd "<C-S-up>") 'move-text-up)
-
-;; Toggle quotes
-(global-set-key (kbd "C-\"") 'toggle-quotes)
+;; Magit
+(global-set-key (kbd "C-x m") 'magit)
+(autoload 'magit "magit")
 
 ;; Browse the kill ring
 (global-set-key (kbd "C-x C-y") 'browse-kill-ring)
@@ -118,12 +69,12 @@
 (global-set-key (kbd "C-x C-j") 'dired-jump) (autoload 'dired-jump "dired")
 
 ;; Easy-mode fullscreen rgrep
-(global-set-key (kbd "M-s s") 'git-grep-fullscreen)
-(global-set-key (kbd "M-s S") 'rgrep-fullscreen)
+;; (global-set-key (kbd "M-s s") 'git-grep-fullscreen)  ;; TODO
+;; (global-set-key (kbd "M-s S") 'rgrep-fullscreen)
 
 ;; Multi-occur
-(global-set-key (kbd "M-s m") 'multi-occur)
-(global-set-key (kbd "M-s M") 'multi-occur-in-matching-buffers)
+;; (global-set-key (kbd "M-s m") 'multi-occur)
+;; (global-set-key (kbd "M-s M") 'multi-occur-in-matching-buffers) ; TODO
 
 ;; Display and edit occurances of regexp in buffer
 (global-set-key (kbd "C-c o") 'occur)
@@ -136,4 +87,3 @@
 
 (provide 'key-bindings)
 ;;; key-bindings.el ends here
-

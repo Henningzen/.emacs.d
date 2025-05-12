@@ -2,10 +2,12 @@
 ;;;
 ;;; Commentary:
 ;;;   Henning Jansen 2025.
-;;;   Developed on GNU Emacs 29.4 (build 2, x86_64-pc-linux-gnu,
-;;;   GTK+ Version 3.24.41, cairo version 1.18.0) of 2024-12-29
+;;;   Developed on GNU Emacs 30.1 (GNU Emacs 30.1 (build 2,
+;;;   x86_64-pc-linux-gnu, GTK+ Version 3.24.38, cairo version 1.16.0)
+;;;   of 2025-04-16
 ;;;
-;;;   Emacs init.el mostly copied from Christian Johansen and Magnar Sveen.
+;;;   Emacs init.el is and subseqent *.el files are based on Christian
+;;;   Johansen and Magnar Sveen emacs.d settings.
 ;;;
 ;;; Code:
 
@@ -80,8 +82,9 @@
 (defun init--install-packages ()
   (packages-install
    '(
-     ansible
      beginend
+     browse-kill-ring
+     change-inner
      cider
      clj-refactor
      clojure-mode
@@ -89,6 +92,7 @@
      company
      consult
      css-eldoc
+     dash
      deadgrep
      diff-hl
      diminish
@@ -96,11 +100,12 @@
      editorconfig
      edn
      elisp-slime-nav
-     elm-mode
      eproject
-     exec-path-from-shell
+     ;; exec-path-from-shell
+     expand-region
      f
      fill-column-indicator
+     find-file-in-project
      flx
      flx-ido
      flycheck
@@ -117,17 +122,19 @@
      ido-completing-read+
      ido-vertical-mode
      inflections
-     jet
+     ;; jet
 ;;   js2-mode
-;;   js2-refactor
-     kaocha-runner
-     less-css-mode
-     lorem-ipsum
+     ;;   js2-refactor
+     jump-char
+     ;; kaocha-runner
+     ;; less-css-mode
+     ;; lorem-ipsum
      magit
      marginalia
      markdown-mode
-     minions
+     ;; minions
      move-text
+     multifiles
 ;;   nodejs-repl
      orderless
      paredit
@@ -135,21 +142,25 @@
      prodigy
      projectile
      queue
-     request
-     restclient
+     ;; request
+     ;; restclient
      ripgrep
-     simple-httpd
+     ;; simple-httpd
      smartparens
+     smart-forward
+     smex
+     smooth-scrolling
      spinner
      sqlite3
      string-edit
      string-edit-at-point
-     systemd
-     terraform-mode
-     textile-mode
+     ;; systemd
+     ;; terraform-mode
+     ;; textile-mode
      undo-tree
      use-package
      vertico
+
      visual-regexp
      wgrep
      whitespace-cleanup-mode
@@ -205,68 +216,26 @@
   (marginalia-mode)
   (keymap-set minibuffer-local-map "M-A" #'marginalia-cycle))
 
-
 (condition-case nil
     (init--install-packages)
   (error
    (package-refresh-contents)
    (init--install-packages)))
 
-;; Lets start with a smattering of sanity
+
 (require 'sane-defaults)
 
 ;; Setup extensions
 (eval-after-load 'org '(require 'setup-org))
-(eval-after-load 'dired '(require 'setup-dired))
 (eval-after-load 'magit '(require 'setup-magit))
-(eval-after-load 'shell '(require 'setup-shell))
-(require 'setup-rgrep)
-(require 'setup-hippie)
-(require 'setup-yasnippet)
+
 (require 'setup-perspective)
-(require 'setup-ffip)
-(require 'setup-html-mode)
-(require 'setup-paredit)
-(require 'setup-editorconfig)
-(require 'setup-css-mode)
-(require 'jet-custom)
 
-(global-set-key (kbd "C-c j e j") 'copy-edn-as-json)
-(global-set-key (kbd "C-c j j e") 'copy-json-as-edn)
 
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
-(require 'prodigy)
-(global-set-key (kbd "C-x M-m") 'prodigy)
 
-;; Font lock dash.el
-(eval-after-load "dash" '(dash-enable-font-lock))
-
-;; Default setup of smartparens
-(require 'smartparens-config)
-(setq sp-autoescape-string-quote nil)
-(--each '(css-mode-hook
-          restclient-mode-hook
-          java-mode
-          markdown-mode)
-  (add-hook it 'turn-on-smartparens-mode))
-
-;; Language specific setup files
-(eval-after-load 'clojure-mode '(require 'setup-clojure-mode))
-(eval-after-load 'markdown-mode '(require 'setup-markdown-mode))
-(eval-after-load 'elm-mode '(require 'setup-elm-mode))
-
-;; Load stuff on demand
-(autoload 'skewer-start "setup-skewer" nil t)
-(autoload 'skewer-demo "setup-skewer" nil t)
-(autoload 'auto-complete-mode "auto-complete" nil t)
-
-;; Map files to modes
+;; Map files to modes --------------------------------
 (require 'mode-mappings)
-
-
-;; Calendar stuff
-(require 'setup-calendar)
 
 ;; Highlight escape sequences
 (require 'highlight-escape-sequences)
@@ -317,26 +286,18 @@
 (autoload 'elisp-slime-nav-mode "elisp-slime-nav")
 (add-hook 'emacs-lisp-mode-hook (lambda () (elisp-slime-nav-mode t) (eldoc-mode 1)))
 
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+
+;; Diminish modeline
+(require 'diminish)
+(diminish 'yas-minor-mode)
+
 ;; Emacs server
 (require 'server)
 (unless (server-running-p)
   (server-start))
 
-;; Run at full power please
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-
-;; Diminish modeline clutter
-(require 'diminish)
-(diminish 'yas-minor-mode)
-
-;; ;; Conclude init by setting up specifics for the current user
-;; (when (file-exists-p user-settings-dir)
-;;   (mapc 'load (directory-files user-settings-dir nil "^[^#].*el$")))
-
-;; ;; Slides
-;; (require 'slides)
-;; (put 'narrow-to-page 'disabled nil)
 (provide 'init)
 ;;; init.el ends here

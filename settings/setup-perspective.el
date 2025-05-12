@@ -1,3 +1,10 @@
+;;; package --- setup-perspective.el
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
+;;;
+;;; Code:
+
 ;; Load Perspective
 (require 'perspective)
 

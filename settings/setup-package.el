@@ -1,3 +1,10 @@
+;;; package --- setup-package.el
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
+;;;
+;;; Code:
+
 (require 'package)
 (require 'dash)
 
@@ -9,7 +16,7 @@
 
 (package-initialize)
 
-(unless (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+(unless (file-exists-p "/home/jansenh/.emacs.d/elpa/archives/melpa")
   (package-refresh-contents))
 
 (defun packages-install (packages)

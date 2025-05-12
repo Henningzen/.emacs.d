@@ -1,3 +1,11 @@
+;;; package --- setup-org.el
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
+;;;
+;;;
+;;; Code:
+
 (defun myorg-update-parent-cookie ()
   (when (equal major-mode 'org-mode)
     (save-excursion
