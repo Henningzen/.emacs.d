@@ -299,6 +299,15 @@
 (require 'diminish)
 (diminish 'yas-minor-mode)
 
+(setq gptel-model 'mistral-small
+      gptel-backend
+      (gptel-make-openai "MistralLeChat"  ;; Any name we want
+        :host "api.mistral.ai"
+        :endpoint "/v1/chat/completions"
+        :protocol "https"
+        :key "xxx"
+        :models '("mistral-small")))
+
 ;; Emacs server
 (require 'server)
 (unless (server-running-p)
