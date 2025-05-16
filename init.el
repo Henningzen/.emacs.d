@@ -315,12 +315,6 @@
 
 (setq gptel-model 'gemini-1.5-pro-latest)
 
-;; (setq
-;;  gptel-model 'gemini-1.5-pro-latest
-;;  gptel-backend (gptel-make-gemini "Gemini"
-;;                  :key "AIzaSyDsJVf8tGy40Lz6GCpzWRF6QuE7Wvq5528"
-;;                  :stream t))
-
 ;; Emacs server
 (require 'server)
 (unless (server-running-p)
