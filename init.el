@@ -299,14 +299,27 @@
 (require 'diminish)
 (diminish 'yas-minor-mode)
 
-(setq gptel-model 'mistral-small
-      gptel-backend
-      (gptel-make-openai "MistralLeChat"  ;; Any name we want
-        :host "api.mistral.ai"
-        :endpoint "/v1/chat/completions"
-        :protocol "https"
-        :key "xxx"
-        :models '("mistral-small")))
+(require 'auth-source)
+
+(defun my/get-secret (host login)
+  "Return the secret (password) for HOST and LOGIN from auth-source."
+  (let ((match (car (auth-source-search :host host :user login :max 1))))
+    (when match
+      (let ((secret (plist-get match :secret)))
+        (if (functionp secret) (funcall secret) secret)))))
+
+(setq gptel-backend
+      (gptel-make-gemini "Gemini"
+        :stream t
+        :key (lambda () (my/get-secret "gemini" "apikey"))))
+
+(setq gptel-model 'gemini-1.5-pro-latest)
+
+;; (setq
+;;  gptel-model 'gemini-1.5-pro-latest
+;;  gptel-backend (gptel-make-gemini "Gemini"
+;;                  :key "AIzaSyDsJVf8tGy40Lz6GCpzWRF6QuE7Wvq5528"
+;;                  :stream t))
 
 ;; Emacs server
 (require 'server)

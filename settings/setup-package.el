@@ -8,11 +8,16 @@
 (require 'package)
 (require 'dash)
 
-;; Add melpa to package repos
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-
 (setq package-pinned-packages '())
+
+(setq package-archives
+      '(("gnu"          . "https://elpa.gnu.org/packages/")      ; always good
+        ("melpa"        . "https://melpa.org/packages/")         ; rolling / dev
+        ("melpa-stable" . "https://stable.melpa.org/packages/"))) ; conservative default
+
+;; Everything keeps coming from melpa-stable, EXCEPT gptel:
+(setq package-pinned-packages
+      '((gptel . "melpa")))
 
 (package-initialize)
 
