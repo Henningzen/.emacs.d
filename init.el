@@ -300,20 +300,40 @@
 (diminish 'yas-minor-mode)
 
 (require 'auth-source)
+(require 'epa-file)
+
+;; Enable EasyPG, which is used for handling encryption and decryption.
+(epa-file-enable)
+(setq auth-sources '("~/.authinfo.gpg"))
 
 (defun my/get-secret (host login)
-  "Return the secret (password) for HOST and LOGIN from auth-source."
+  "Return the secret (password) for HOST and LOGIN via auth-source."
   (let ((match (car (auth-source-search :host host :user login :max 1))))
     (when match
       (let ((secret (plist-get match :secret)))
         (if (functionp secret) (funcall secret) secret)))))
 
-(setq gptel-backend
-      (gptel-make-gemini "Gemini"
-        :stream t
-        :key (lambda () (my/get-secret "gemini" "apikey"))))
 
-(setq gptel-model 'gemini-1.5-pro-latest)
+(require 'gptel)
+;; Define GPTEL backend explicitly, using authinfo.gpg
+(setq-default gptel-backend
+              (gptel-make-openai "ChatGPT"
+                                 :host "api.openai.com"
+                                 :stream t
+                                 :key (lambda ()
+                                        (auth-source-pick-first-password
+                                         :host "api.openai.com"
+                                         :user "apikey"))
+                                 :models '(gpt-4-1106-preview)))
+
+;; Set the default model 
+(setq-default gptel-model 'gpt-4-1106-preview)
+
+;; Gemini configuration
+;; (setq  gptel-model 'gemini-1.5-pro-latest
+;;        gptel-backend (gptel-make-gemini "Gemini"
+;;                        :key (lambda () (my/get-secret "gemini" "apikey"))
+;;                        :stream t))
 
 ;; Emacs server
 (require 'server)
