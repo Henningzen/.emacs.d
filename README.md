@@ -53,6 +53,17 @@ In addition, make sure you have:
 I have installed Emacs from source, using this guide [Installing Emacs 29.1 on Ubuntu 22.04 LTS](https://arnesonium.com/2023/07/emacs-29-1-on-ubuntu-22-04-lts)
 by Erik L. Arneson.
 
+## Enable secure auth-source
+
+The configuration is configured with a ChatGPT model (currently in the gpt-4 family). You will need an API key to use this function. (See the gptel section).
+
+1. Create a ~/authinfo.gpg file (or something else, remember to update init.el accordingly).
+
+2. Add your API key(s):
+   ```machine api.openai.com login apikey password xxx ```
+
+3. Saving the file from Emacs will generate the encryption.
+
 ## Using these emacs settings
 
 * Quit emacs with `C-x r q`, mnemonic *Really Quit* is easier that Googling how to quit Vim.

@@ -1,10 +1,17 @@
+;;; package --- sane-defaults.el
+;;;
+;;; Commentary:
+;;;   Henning Jansen 2025.
+;;;
+;;; Code:
+
 ;; Allow pasting selection outside of Emacs
 (setq x-select-enable-clipboard t)
 
 ;; Auto refresh buffers
 (global-auto-revert-mode 1)
 
-;; Also auto refresh dired, but be quiet about it
+;; Auto refresh dired
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
@@ -14,19 +21,16 @@
 ;; Move files to trash when deleting
 (setq delete-by-moving-to-trash t)
 
-;; Real emacs knights don't use shift to mark things
+;; Don't use shift to mark things
 (setq shift-select-mode nil)
 
 ;; Transparently open compressed files
 (auto-compression-mode t)
 
-;; Enable syntax highlighting for older Emacsen that have it off
-(global-font-lock-mode t)
-
-;; Answering just 'y' or 'n' will do
+;; Answering just 'y' or 'n' aliases
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; UTF-8 please
+;; UTF-8
 (setq locale-coding-system 'utf-8) ; pretty
 (set-terminal-coding-system 'utf-8) ; pretty
 (set-keyboard-coding-system 'utf-8) ; pretty
@@ -42,8 +46,8 @@
 ;; Remove text in active region if inserting text
 (delete-selection-mode 1)
 
-;; Don't highlight matches with jump-char - it's distracting
-(setq jump-char-lazy-highlight-face nil)
+;; Highlight matches with jump-char
+(setq jump-char-lazy-highlight-face t)
 
 ;; Always display line and column numbers
 (setq line-number-mode t)
@@ -72,7 +76,7 @@
 ;; Easily navigate sillycased words
 (global-subword-mode 1)
 
-;; Don't break lines for me, please
+;; Don't break lines
 (setq-default truncate-lines t)
 
 ;; Keep cursor away from edges when scrolling up/down
@@ -81,11 +85,11 @@
 ;; Allow recursive minibuffers
 (setq enable-recursive-minibuffers t)
 
-;; Don't be so stingy on the memory, we have lots now. It's the distant future.
+;; Garbage collection
 (setq gc-cons-threshold 20000000)
 
-;; org-mode: Don't ruin S-arrow to switch windows please (use M-+ and M-- instead to toggle)
-(setq org-replace-disputed-keys t)
+;; ;; org-mode: Don't ruin S-arrow to switch windows please (use M-+ and M-- instead to toggle)
+;; (setq org-replace-disputed-keys t)
 
 ;; Fontify org-mode code blocks
 (setq org-src-fontify-natively t)
@@ -95,7 +99,7 @@
 (require 'undo-tree)
 (global-undo-tree-mode)
 
-;; Sentences do not need double spaces to end. Period.
+;; Sentences do not need double spaces to end.
 (set-default 'sentence-end-double-space nil)
 
 ;; 80 chars is a good width.

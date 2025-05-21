@@ -9,6 +9,7 @@ ido.last
 projectile-bookmarks.eld
 recentf
 backups/
+undo/
 elpa/
 history
 transient
@@ -17,4 +18,4 @@ eln-cache
 perspectives_jansenh
 session.*
 tramp
-
+.places
