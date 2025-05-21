@@ -113,6 +113,7 @@
      flycheck-joker
      flycheck-pos-tip
      forge
+     gptel
      gist
      highlight-escape-sequences
      html-to-hiccup
@@ -135,6 +136,7 @@
      ;; minions
      move-text
      multifiles
+     nov
 ;;   nodejs-repl
      orderless
      paredit
@@ -229,10 +231,8 @@
 (eval-after-load 'org '(require 'setup-org))
 (eval-after-load 'magit '(require 'setup-magit))
 
+(require 'setup-gptel)
 (require 'setup-perspective)
-
-
-
 
 ;; Map files to modes --------------------------------
 (require 'mode-mappings)
@@ -299,41 +299,8 @@
 (require 'diminish)
 (diminish 'yas-minor-mode)
 
-(require 'auth-source)
-(require 'epa-file)
-
-;; Enable EasyPG, which is used for handling encryption and decryption.
-(epa-file-enable)
-(setq auth-sources '("~/.authinfo.gpg"))
-
-(defun my/get-secret (host login)
-  "Return the secret (password) for HOST and LOGIN via auth-source."
-  (let ((match (car (auth-source-search :host host :user login :max 1))))
-    (when match
-      (let ((secret (plist-get match :secret)))
-        (if (functionp secret) (funcall secret) secret)))))
-
-
-(require 'gptel)
-;; Define GPTEL backend explicitly, using authinfo.gpg
-(setq-default gptel-backend
-              (gptel-make-openai "ChatGPT"
-                                 :host "api.openai.com"
-                                 :stream t
-                                 :key (lambda ()
-                                        (auth-source-pick-first-password
-                                         :host "api.openai.com"
-                                         :user "apikey"))
-                                 :models '(gpt-4-1106-preview)))
-
-;; Set the default model 
-(setq-default gptel-model 'gpt-4-1106-preview)
-
-;; Gemini configuration
-;; (setq  gptel-model 'gemini-1.5-pro-latest
-;;        gptel-backend (gptel-make-gemini "Gemini"
-;;                        :key (lambda () (my/get-secret "gemini" "apikey"))
-;;                        :stream t))
+;; TODO: Novel mode for ePub, PDF et al
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 ;; Emacs server
 (require 'server)
