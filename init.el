@@ -275,11 +275,6 @@
 (require 'browse-kill-ring)
 (setq browse-kill-ring-quit-action 'save-and-restore)
 
-;; Store the undo history in a dedicated directory, 
-(require 'undo-tree)
-(global-undo-tree-mode 1)
-(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
-
 ;; Smart M-x is smart
 (require 'smex)
 (smex-initialize)
