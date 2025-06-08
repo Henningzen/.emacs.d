@@ -19,4 +19,7 @@ perspectives
 session.*
 tramp
 .places
+<<<<<<< HEAD
 nov-places
+=======
+>>>>>>> 135ed7b (merge develop (#4))
