@@ -22,100 +22,113 @@
         (if (functionp secret) (funcall secret) secret)))))
 
 ;; Define your custom system prompt
-(defcustom gptel-claude-normal-system-prompt
+(defcustom gptel-normal-system-prompt
   "You are a large language model living in Emacs and a helpful assistant pro-coder. Respond concisely. You will write output in formal Org mode, with line-width max 80 characters."
   "System prompt for normal LLM mode."
   :type 'string
   :group 'gptel)
 
 ;; Define LLM backends
-(setq gptel-claude-normal
-      (gptel-make-anthropic "Claude"
-                 :stream t 
-                 :key (my/get-secret "anthropic" "apikey")
-                 :models '(claude-opus-4-20250514)))
+(setq gptel-mistral (gptel-make-openai "Mistral"
+                      :host "api.mistral.ai"
+                      :endpoint "/v1/chat/completions"
+                      :stream t
+                      :key (my/get-secret "api.mistral.ai" "apikey")
+                      :models '(mistral-large-latest
+                                codestral-2501
+                                magistral-medium-2506)))
 
-(setq gptel-claude-thinking
-      (gptel-make-anthropic "Claude-thinking"
-        :key (my/get-secret "anthropic" "apikey")
-        :stream t
-        :models '(claude-opus-4-20250514)
-        :header (lambda () 
-                  (when-let* ((key (gptel--get-api-key)))
-                    `(("x-api-key" . ,key)
-                      ("anthropic-version" . "2023-06-01")
-                      ("anthropic-beta" . "pdfs-2024-09-25")
-                      ("anthropic-beta" . "output-128k-2025-02-19")
-                      ("anthropic-beta" . "prompt-caching-2024-07-31"))))
-        :request-params '(:thinking (:type "enabled" :budget_tokens 2048)
-                          :max_tokens 4096)))
+(setq gptel-claude (gptel-make-anthropic "Claude"
+                     :stream t 
+                     :key (my/get-secret "api.anthropic.ai" "apikey")
+                     :models '(claude-opus-4-20250514)))
 
-;; ;; Set as default model
-;; (setq gptel-model "claude-3-7-sonnet-20250219")
+(setq gptel-claude-thinking (gptel-make-anthropic "Claude-thinking"
+                              :key (my/get-secret "api.anthropic.ai" "apikey")
+                              :stream t
+                              :models '(claude-opus-4-20250514)
+                              :header (lambda () 
+                                        (when-let* ((key (gptel--get-api-key)))
+                                          `(("x-api-key" . ,key)
+                                            ("anthropic-version" . "2023-06-01")
+                                            ("anthropic-beta" . "pdfs-2024-09-25")
+                                            ("anthropic-beta" . "output-128k-2025-02-19")
+                                            ("anthropic-beta" . "prompt-caching-2024-07-31"))))
+                              :request-params '(:thinking (:type "enabled" :budget_tokens 2048)
+                                                          :max_tokens 4096)))
 
-;; ;; Set default backend
-;; (setq gptel-backend gptel-claude-normal
-;;       gptel-model 'claude-3-7-sonnet-20250219)
+;; Set as default model
+(setq gptel-model "mistral-large-latest")
 
-;; ;; Set the default system prompt
-;; (setq gptel-system-prompt gptel-claude-normal-system-prompt)
+;; Set default backend
+(setq gptel-backend gptel-mistral
+      gptel-model 'mistral-large-latest)
 
+;; Set the default system prompt
+(setq gptel-system-prompt gptel-normal-system-prompt)
+
+;; Create a generic function to switch backends and models
+(defun gptel-switch-backend (backend model)
+  "Switch to the specified BACKEND and MODEL."
+  (interactive)
+  (setq gptel-backend backend
+        gptel-model model)
+  (message "Switched to %s with model %s" (gptel-backend-name backend) model))
+
+;; Create functions to switch between backends
+(defun gptel-use-mistral ()
+  (interactive)
+  (gptel-switch-backend gptel-mistral 'mistral-large-latest))
+
+(defun gptel-use-codestral ()
+  (interactive)
+  (gptel-switch-backend gptel-mistral 'codestral-2501))
+
+(defun gptel-use-magistral ()
+  (interactive)
+  (gptel-switch-backend gptel-mistral 'magistral-medium-2506))
+
+(defun gptel-use-claude ()
+  (interactive)
+  (gptel-switch-backend gptel-claude 'claude-opus-4-20250514))
+
+(defun gptel-use-claude-thinking ()
+  (interactive)
+  (gptel-switch-backend gptel-claude-thinking 'claude-opus-4-20250514))
+
+;; Obsolete --------------------------------------------------------------------
 ;; ;; Create functions to switch between backends
-;; (defun gptel-use-claude-normal ()
+;; (defun gptel-use-mistral ()
 ;;   (interactive)
-;;   (setq gptel-backend gptel-claude-normal)
-;;   (message "Switched to normal Claude Sonnet"))
+;;   (setq gptel-backend gptel-mistral)
+;;   (setq gptel-model 'mistral-large-latest)
+;;   (message "Switched to Mistral"))
+
+;; (defun gptel-use-codestral ()
+;;   (interactive)
+;;   (setq gptel-backend gptel-mistral)
+;;   (setq gptel-model 'codestral-2501)
+;;   (message "Switched to Codestral"))
+
+;; (defun gptel-use-magistral ()
+;;   (interactive)
+;;   (setq gptel-backend gptel-mistral)
+;;   (setq gptel-model 'magistral-medium-2506)
+;;   (message "Switched to Magistral"))
+
+;; (defun gptel-use-claude ()
+;;   (interactive)
+;;   (setq gptel-backend gptel-claude)
+;;   (setq gptel-model 'claude-opus-4-20250514)
+;;   (message "Switched to normal Claude Opus"))
 
 ;; (defun gptel-use-claude-thinking ()
 ;;   (interactive)
 ;;   (setq gptel-backend gptel-claude-thinking)
-;;   (message "Switched to Claude Sonnet with thinking enabled"))
+;;   (setq gptel-model 'claude-opus-4-20250514)
+;;   (message "Switched to Claude Opus with thinking enabled"))
+;; -----------------------------------------------------------------------------
 
-
-;; =================================================================
-;; GPTEL Configuration for Mistral
-;; =================================================================
-(use-package gptel
-  :ensure t
-  :config
-  ;; Define the list of models you want to use
-  (defvar my/gptel-mistral-models
-    '("mistral-large-latest"
-      "codestral-2501")
-    "A list of available Mistral models.")
-
-  ;; Set up Mistral as a backend
-  (setq gptel-backend (gptel-make-openai "Mistral"
-                        :host "api.mistral.ai"
-                        :endpoint "/v1/chat/completions"
-                        :stream t
-                        ;; Securely get key from ~/.authinfo.gpg
-                        :key (auth-source-pick-first-password :host "api.mistral.ai")
-                        :models my/gptel-mistral-models))
-
-  ;; Set Mistral as the default backend and model
-  (setq gptel-default-backend gptel-backend)
-  (setq gptel-model 'mistral-large-latest) ; Set a sensible default
-
-  ;; --- Logging Functionality ---
-  (defun my/gptel-log-request-details (request)
-    "Log the model and prompt before sending a gptel request."
-    (let ((model (plist-get request :model)))
-      (message "GPTEL REQUEST -> Using model: %s" model)))
-
-  ;; Add the logging function to the official gptel hook
-  (add-hook 'gptel-before-request-hook #'my/gptel-log-request-details))
-
-;; --- Interactive Model Selector ---
-(defun gptel-select-model ()
-  "Select a Mistral model and set it as the current gptel-model."
-  (interactive)
-  (let ((model (completing-read "Select model: " my/gptel-mistral-models nil t)))
-    (setq gptel-model model)
-    (message "Switched to model: %s" model)))
-
-;; Optional: Bind a key to your model selector
-(global-set-key (kbd "C-c g m") 'gptel-select-model)
 
 (provide 'setup-gptel)
 
