@@ -34,9 +34,9 @@
                       :endpoint "/v1/chat/completions"
                       :stream t
                       :key (my/get-secret "api.mistral.ai" "apikey")
-                      :models '(mistral-large-latest
+                      :models '(mistral-medium-2505
                                 codestral-2501
-                                magistral-medium-2506)))
+                                magistral-medium-2505)))
 
 (setq gptel-claude (gptel-make-anthropic "Claude"
                      :stream t 
@@ -58,11 +58,11 @@
                                                           :max_tokens 4096)))
 
 ;; Set as default model
-(setq gptel-model "mistral-large-latest")
+(setq gptel-model "mistral-medium-2025-05")
 
 ;; Set default backend
 (setq gptel-backend gptel-mistral
-      gptel-model 'mistral-large-latest)
+      gptel-model 'mistral-medium-2505)
 
 ;; Set the default system prompt
 (setq gptel-system-prompt gptel-normal-system-prompt)
@@ -78,7 +78,7 @@
 ;; Create functions to switch between backends
 (defun gptel-use-mistral ()
   (interactive)
-  (gptel-switch-backend gptel-mistral 'mistral-large-latest))
+  (gptel-switch-backend gptel-mistral 'mistral-medium-2505))
 
 (defun gptel-use-codestral ()
   (interactive)
@@ -96,39 +96,8 @@
   (interactive)
   (gptel-switch-backend gptel-claude-thinking 'claude-opus-4-20250514))
 
-;; Obsolete --------------------------------------------------------------------
-;; ;; Create functions to switch between backends
-;; (defun gptel-use-mistral ()
-;;   (interactive)
-;;   (setq gptel-backend gptel-mistral)
-;;   (setq gptel-model 'mistral-large-latest)
-;;   (message "Switched to Mistral"))
-
-;; (defun gptel-use-codestral ()
-;;   (interactive)
-;;   (setq gptel-backend gptel-mistral)
-;;   (setq gptel-model 'codestral-2501)
-;;   (message "Switched to Codestral"))
-
-;; (defun gptel-use-magistral ()
-;;   (interactive)
-;;   (setq gptel-backend gptel-mistral)
-;;   (setq gptel-model 'magistral-medium-2506)
-;;   (message "Switched to Magistral"))
-
-;; (defun gptel-use-claude ()
-;;   (interactive)
-;;   (setq gptel-backend gptel-claude)
-;;   (setq gptel-model 'claude-opus-4-20250514)
-;;   (message "Switched to normal Claude Opus"))
-
-;; (defun gptel-use-claude-thinking ()
-;;   (interactive)
-;;   (setq gptel-backend gptel-claude-thinking)
-;;   (setq gptel-model 'claude-opus-4-20250514)
-;;   (message "Switched to Claude Opus with thinking enabled"))
-;; -----------------------------------------------------------------------------
-
+(setq gptel-default-mode 'org-mode)
+(setq gptel-setting '(system-prompt . "You are a large language model living in Emacs and a helpful pro-coder assistant. Respond concisely."))
 
 (provide 'setup-gptel)
 
