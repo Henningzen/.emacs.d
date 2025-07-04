@@ -66,6 +66,11 @@
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
+;; Bootstrap Java early, I cannot seem to pick it up from JAVA_HOME in .basrc
+(setenv "JAVA_HOME" "/usr/local/jdk-21")
+(add-to-list 'exec-path "/usr/local/jdk-21/bin")
+
+
 ;; Technomancy's Better Defaults
 ;;https://git.sr.ht/~technomancy/better-defaults
 
